@@ -2,17 +2,9 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
+from app import db,ma
 
-# init ap
-app = Flask(__name__)
-basedir = os.path.abspath(os.path.dirname(__file__))
-# Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# init db
-db = SQLAlchemy(app)
-# init ma
-ma = Marshmallow(app)
+
 
 # Tender Clash/Model
 class Tender(db.Model):
@@ -164,6 +156,3 @@ def delete_tender(id):
 def get_tender(tenderNumber):
     tender = Tender.query.filter_by(tenderNumber=tenderNumber).first_or_404()
     return tender_schema.jsonify(tender)
-# Run Server
-if __name__ == '__main__':
-    app.run(debug=True)
