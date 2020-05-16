@@ -66,7 +66,7 @@ class Tender(db.Model):
 
     def __repr__(self):
         """
-        :param: tender_id
+        :param: tender_id.
         :return:
         """
         return '<tender_id {}>'.format(self.tender_id)

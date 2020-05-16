@@ -7,7 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     """
-    Common configurations
+    Common configurations.
     """
     DEBUG = False
     TESTING = False
@@ -17,7 +17,7 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     """
-    Development configurations
+    Development configurations.
     """
     DEBUG = True
     SQLALCHEMY_ECHO = True
@@ -25,7 +25,7 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     """
-    Production configurations
+    Production configurations.
     """
     DEBUG = False
     TESTING = False
@@ -33,7 +33,7 @@ class ProductionConfig(Config):
 
 class TestingConfig(Config):
     """
-    Testing configurations
+    Testing configurations.
     """
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.getenv("TEST_DATABASE_URI")

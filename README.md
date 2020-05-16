@@ -20,14 +20,13 @@ This is a simple python starter repo template for setting up your project. The s
 - flake8: for linting and formatting
 
 ## Backend App and API
-1. It has the following relational entities:
+- It has the following relational entities:
 
     ``
     Tender
     ``
-2. It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
-
-3. Only an authorized user can access the endpoints
+- It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
+- Only an authorized user can access the endpoints
 
 
 ## Why
@@ -156,10 +155,10 @@ Updating a tender:
 ![Updating Tender]()
 
 
-## Built With...
-1. [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
-2. [Flask](http://flask.pocoo.org/)
-3. [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
+## Built With
+- [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
+- [Flask](http://flask.pocoo.org/)
+- [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
 
 
 ## Authors
