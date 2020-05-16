@@ -20,6 +20,9 @@ ma = Marshmallow(app)
 
 # Tender schema
 class TenderSchema(ma.Schema):
+    """
+    Tender schema field
+    """
     class Meta:
         fields = ('id', 'tenderNumber', 'tenderDescription', 'category', 'datePublished', 'closingDate', 'tenderStatus',
                   'nameOfInstitution', 'officalLocation', 'InstitutionContactPerson', 'InstitutionPersonEmail',
@@ -38,13 +41,6 @@ def get_tenders():
     all_tenders = Tender.query.all()
     result = tenders_schema.dump(all_tenders)
     return jsonify(result)
-
-
-""" Get Single Product by ID
-@app.route('/tenders/<id>', methods=['GET'])
-def get_tender(id):
-    tender = Tender.query.get(id)
-    return tender_schema.jsonify(tender)"""
 
 
 # Create a Tender
@@ -80,9 +76,9 @@ def add_tender():
 
 
 # Update Product
-@app.route('/api/tenders/<id>', methods=['PUT'])
-def update_tender(id):
-    tender = Tender.query.get(id)
+@app.route('/api/tenders/<tender_id>', methods=['PUT'])
+def update_tender(tender_id):
+    tender = Tender.query.get(tender_id)
     tenderNumber = request.json['tenderNumber']
     tenderDescription = request.json['tenderDescription']
     category = request.json['category']
@@ -125,9 +121,9 @@ def update_tender(id):
 
 
 # Delete Product
-@app.route('/api/tenders/<id>', methods=['DELETE'])
-def delete_tender(id):
-    tender = Tender.query.get(id)
+@app.route('/api/tenders/<tender_id>', methods=['DELETE'])
+def delete_tender(tender_id):
+    tender = Tender.query.get(tender_id)
     db.session.delete(tender)
     db.session.commit()
 

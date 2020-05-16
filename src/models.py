@@ -1,9 +1,9 @@
-
 # Tender Clash/Model
 from src.app import db
 
+
 class Tender(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    tender_id = db.Column(db.Integer, primary_key=True)
     tenderNumber = db.Column(db.String(25), unique=True)
     tenderDescription = db.Column(db.String(80))
     category = db.Column(db.String(40))
@@ -26,6 +26,26 @@ class Tender(db.Model):
                  nameOfInstitution, officalLocation, InstitutionContactPerson, InstitutionPersonEmail,
                  InstitutionPersonPhone, companyName, companyRegistrationNo, directors, cellNumber, companyAddress,
                  awardedPoint):
+        """
+
+        :param tenderNumber:
+        :param tenderDescription:
+        :param category:
+        :param datePublished:
+        :param closingDate:
+        :param tenderStatus:
+        :param nameOfInstitution:
+        :param officalLocation:
+        :param InstitutionContactPerson:
+        :param InstitutionPersonEmail:
+        :param InstitutionPersonPhone:
+        :param companyName:
+        :param companyRegistrationNo:
+        :param directors:
+        :param cellNumber:
+        :param companyAddress:
+        :param awardedPoint:
+        """
         self.tenderNumber = tenderNumber
         self.tenderDescription = tenderDescription
         self.category = category
@@ -45,5 +65,8 @@ class Tender(db.Model):
         self.awardedPoint = awardedPoint
 
     def __repr__(self):
-        return '<id {}>'.format(self.id)
-
+        """
+        :param: tender_id
+        :return:
+        """
+        return '<tender_id {}>'.format(self.tender_id)

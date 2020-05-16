@@ -15,7 +15,6 @@ myapplication = "*"
 flask-script = "*"
 flask-migrate = "*"
 python-dotenv = "*"
-pysqlite = "*"
 
 [requires]
 python_version = "3.7"

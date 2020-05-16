@@ -7,15 +7,6 @@ A one-liner phrase describing this project or app
 
 ## About
 
-
-# Backend App and API
-1. It has the following relational entities:
-    * Tender
-2. It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
-3. Only an authorized user can access the endpoints
-
-## About
-
 What is this project about. Ok to enrich here or the section above it with an image. 
 
 Once this repo has been setup on Codacy by the TTL, replace the above badge with the actual one from the Codacy dashboard, and add the code coverage badge as well. This is mandatory
@@ -28,12 +19,24 @@ This is a simple python starter repo template for setting up your project. The s
 
 - flake8: for linting and formatting
 
+## Backend App and API
+1. It has the following relational entities:
+
+    ``
+    Tender
+    ``
+2. It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
+
+3. Only an authorized user can access the endpoints
+
+
 ## Why
 
 Talk about what problem this solves, what SDG(s) and SGD targets it addresses and why these are important
 
 ## Usage
 How would someone use what you have built, include URLs to the deployed app, service e.t.c when you have it setup
+
 ## Installation and Set Up
 
 You should have **Python 3.5+** and **git** installed. 
@@ -107,26 +110,29 @@ All tests should be written in the `tests` folder. tests/test_src.py is a sample
   `poetry run app`
 
 
-Create a `.env` file with the following keys:
-```
-SECRET_KEY
-DATABASE_URI - for SQLAlchemy
-TEST_DATABASE_URI - for SQLAlchemy
-ENVIRONMENT - this is either production or development
-```
-## MySQL database
+## Database Setup
 We create the MySQL database. Ensure you have MySQL installed and running, and then log in as the root user:
 
+## Create dotenv
+Create a `.env` file with the following keys:
 
+    ```
+    SECRET_KEY
+    DATABASE_URI - for SQLAlchemy
+    TEST_DATABASE_URI - for SQLAlchemy
+    ENVIRONMENT - this is either production or development
+    ```
+## Database Migration
 Initialize, migrate, and upgrade the database:
-```
-python manage.py db init
-python manage.py db migrate
-python manage.py db upgrade
-```
+
+    ```
+    python manage.py db init
+    python manage.py db migrate
+    python manage.py db upgrade
+    ```
 
 ## Launching the Program
-Run ```python app.py```. You may use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Google Chrome to run the API.
+Run ```python __main__.py```. You may use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Google Chrome to run the API.
 
 ## API Endpoints
 
@@ -146,19 +152,19 @@ Registering and logging in to get a JWT token:
 ![User Login]()
 
 Updating a tender:
+
 ![Updating Tender]()
 
 
 ## Built With...
-* [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
-* [Flask](http://flask.pocoo.org/)
-* [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
+1. [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
+2. [Flask](http://flask.pocoo.org/)
+3. [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
 
 
 ## Authors
-
 List the team behind this project. Their names linked to their Github, LinkedIn, or Twitter accounts should suffice. Ok to signify the role they play in the project, including the TTL and mentor
- 1. Ajay Olabode [Github](https://github.com/boratonAJ) [LinkedIn](https://www.linkedin.com/in/boraton/) [TTL](https://github.com/orgs/BuildForSDG/teams/team-279)
+1. Ajay Olabode [Github](https://github.com/boratonAJ) [LinkedIn](https://www.linkedin.com/in/boraton/) [TTL](https://github.com/orgs/BuildForSDG/teams/team-279)
  
 ## Contributing
 If this project sounds interesting to you and you'd like to contribute, thank you!
