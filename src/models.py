@@ -35,7 +35,8 @@ class User(db.Model, UserMixin):
         """Checks if password matches."""
         return check_password_hash(self.password_hash, password)
 
-    def generate_auth_token(self, user_id):
+    @staticmethod
+    def generate_auth_token(user_id):
         """Generates the auth token and returns it."""
         try:
             payload = {
