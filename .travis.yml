@@ -4,7 +4,7 @@ python:
 # command to install dependencies
 env:
   global:
-    - APP_SETTINGS ='testing'
+    - ENVIRONMENT ='development'
 # command to install dependencies
 install:
   - pip install -r requirements.txt
