@@ -19,7 +19,9 @@ def create_admin_user():
         db.session.commit()
 
     # noinspection PyArgumentList
-    admin = User(username="admin", password="admin1234")
+    username = "admin"
+    password = "admin1234"
+    admin = User(username=username, password=password)
     db.session.add(admin)
     db.session.commit()
 
