@@ -22,7 +22,7 @@ db.init_app(app)
 
 from src.models import Tender
 
-# init mas
+# init ma
 ma = Marshmallow(app)
 
 
