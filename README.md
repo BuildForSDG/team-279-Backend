@@ -6,17 +6,17 @@ A one-liner phrase describing this project or app
 
 ## About
 
-What is this project about. Ok to enrich here or the section above it with an image. 
+What is this project about. Ok to enrich here or the section above it with an image.
 
 Once this repo has been setup on Codacy by the TTL, replace the above badge with the actual one from the Codacy dashboard, and add the code coverage badge as well. This is mandatory
 
 This is a simple python starter repo template for setting up your project. The setup contains:
 
--  install: poetry via pip. poetry is a dependecy manager.
+-   install: poetry via pip. poetry is a dependencies manager.
 
--  poetry: configuration in pyproject.toml
+-   poetry: configuration in pyproject.toml
 
--  flake8: for linting and formatting
+-   flake8: for linting and formatting
 
 ## Backend App and API
 
@@ -25,7 +25,7 @@ This is a simple python starter repo template for setting up your project. The s
     ``
     Tender
     ``
-   
+
 -   It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
 
 -   Only an authorized user can access the endpoints
@@ -40,7 +40,7 @@ How would someone use what you have built, include URLs to the deployed app, ser
 
 ## Installation and Set Up
 
-You should have **Python 3.5+** and **git** installed. 
+You should have **Python 3.5+** and **git** installed.
 
 1.  Clone the repo you've created from the template herein and change into the directory
 
@@ -75,7 +75,7 @@ You should have **Python 3.5+** and **git** installed.
     &nbsp;
 
     To check that it is correctly installed, you can check the version:
-   
+
     ``
     poetry --version
     ``
@@ -104,22 +104,22 @@ All tests should be written in the `tests` folder. tests/test_src.py is a sample
 
 #### Hints
 
--   Lint: 
+-   Lint:
 
     `poetry run flake8`
 
--   Run tests using the command: 
-  
+-   Run tests using the command:
+
     `poetry run pytest`
 
--   Install dependencies: 
+-   Install dependencies:
 
     `poetry add <dependency>`
-  
+
 -   Install dev dependencies:
 
     `poetry add --dev <dev-dependency>`
-  
+
 -   Run your project:
 
     `poetry run app`
@@ -141,11 +141,11 @@ Create a ```.env``` file with the following keys:
 
    ENVIRONMENT - this is either production or development
    ```
-   
+
 ## Database Migration
 Initialize, migrate, and upgrade the database:
 
-   ```
+   ```py
    python manage.py db init
 
    python manage.py db migrate
@@ -171,28 +171,28 @@ Run ```python __main__.py```. You may use [Postman](https://chrome.google.com/we
 
 Registering and logging in to get a JWT token:
 
--  ![User Registration]()
+-   ![User Registration]()
 
--  ![User Login]()
+-   ![User Login]()
 
 Updating a tender:
 
--  ![Updating Tender]()
+-   ![Updating Tender]()
 
 ## Built With
 
--  [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
+-   [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
 
--  [Flask](http://flask.pocoo.org/)
+-   [Flask](http://flask.pocoo.org/)
 
--  [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
+-   [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
 
 ## Authors
 
 List the team behind this project. Their names linked to their Github, LinkedIn, or Twitter accounts should suffice. Ok to signify the role they play in the project, including the TTL and mentor.
 
 1.  Ajay Olabode [Github](https://github.com/boratonAJ) [LinkedIn](https://www.linkedin.com/in/boraton/) [TTL](https://github.com/orgs/BuildForSDG/teams/team-279)
- 
+
 ## Contributing
 
 If this project sounds interesting to you and you'd like to contribute, thank you!
