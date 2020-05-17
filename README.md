@@ -13,22 +13,23 @@ Once this repo has been setup on Codacy by the TTL, replace the above badge with
 
 This is a simple python starter repo template for setting up your project. The setup contains:
 
-- install: poetry via pip. poetry is a dependecy manager.
+-  install: poetry via pip. poetry is a dependecy manager.
 
-- poetry: configuration in pyproject.toml
+-  poetry: configuration in pyproject.toml
 
-- flake8: for linting and formatting
+-  flake8: for linting and formatting
 
 ## Backend App and API
 
-- It has the following relational entities:
+-  It has the following relational entities:
 
-  ``
-  Tender
-  ``
-- It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
+   ``
+   Tender
+   ``
+   
+-  It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
 
-- Only an authorized user can access the endpoints
+-  Only an authorized user can access the endpoints
 
 ## Why
 
@@ -101,77 +102,93 @@ All tests should be written in the `tests` folder. tests/test_src.py is a sample
 
 #### Hints
 
-- Lint: 
+-  Lint: 
 
-  `poetry run flake8`
+   `poetry run flake8`
 
-- Run tests using the command: 
+-  Run tests using the command: 
   
-  `poetry run pytest`
+   `poetry run pytest`
 
-- Install dependencies: 
+-  Install dependencies: 
 
-  `poetry add <dependency>`
+   `poetry add <dependency>`
   
-- Install dev dependencies:
+-  Install dev dependencies:
 
-  `poetry add --dev <dev-dependency>`
+   `poetry add --dev <dev-dependency>`
   
-- Run your project:
+-  Run your project:
 
-  `poetry run app`
-
+   `poetry run app`
 
 ## Database Setup
 We create the MySQL database. Ensure you have MySQL installed and running, and then log in as the root user:
 
 ## Create dotenv
-Create a `.env` file with the following keys:
+Create a ```.env``` file with the following keys:
 
-   ```
+   ``
    SECRET_KEY
+   ``
+   
+   ``
    DATABASE_URI - for SQLAlchemy
+   ``
+   
+   ``
    TEST_DATABASE_URI - for SQLAlchemy
+   ``
+   
+   ``
    ENVIRONMENT - this is either production or development
-   ```
+   ``
+   
 ## Database Migration
 Initialize, migrate, and upgrade the database:
 
-   ```
+   ``
    python manage.py db init
+   ``
+   
+   ``
    python manage.py db migrate
+   ``
+   
+   ``
    python manage.py db upgrade
-   ```
+   ``
 
 ## Launching the Program
 Run ```python __main__.py```. You may use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Google Chrome to run the API.
 
 ## API Endpoints
 
-| Resource URL | Methods | Description | Requires Token |
-| -------- | ------------- | --------- |--------------- |
-| `/api/v1` | GET  | The index | FALSE |
-| `/api/v1/auth/register` | POST  | User registration | FALSE |
-|  `/api/v1/auth/login` | POST | User login | FALSE |
-| `/api/v1/tenders` | GET, POST | View all tenders, add a tender | TRUE |
-| `/api/v1/tenders/<string:id>` | GET, PUT, DELETE | View, edit, and delete a single tender | TRUE |
+| Resource URL                  | Methods          | Description                            | Requires Token |
+| ----------------------------- | ---------------- | -------------------------------------- |--------------- |
+| `/api/v1`                     | GET              | The index                              | FALSE          |
+| `/api/v1/auth/register`       | POST             | User registration                      | FALSE          |
+|  `/api/v1/auth/login`         | POST             | User login                             | FALSE          |
+| `/api/v1/tenders`             | GET, POST        | View all tenders, add a tender         | TRUE           |
+| `/api/v1/tenders/<string:id>` | GET, PUT, DELETE | View, edit, and delete a single tender | TRUE           |
 
 ## Sample Tender API Requests
 
 Registering and logging in to get a JWT token:
-![User Registration]()
 
-![User Login]()
+-  ![User Registration]()
+
+-  ![User Login]()
 
 Updating a tender:
 
-![Updating Tender]()
+-  ![Updating Tender]()
 
 
 ## Built With
-- [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
-- [Flask](http://flask.pocoo.org/)
-- [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
+-  [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
+-  [Flask](http://flask.pocoo.org/)
+-  [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
 
 
 ## Authors

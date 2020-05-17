@@ -4,6 +4,7 @@
       <w>codacy</w>
       <w>dependecy</w>
       <w>pyproject</w>
+      <w>sqlalchemy</w>
     </words>
   </dictionary>
 </component>

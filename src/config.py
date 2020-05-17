@@ -6,9 +6,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
+
     """
     Common configurations.
     """
+
     DEBUG = False
     TESTING = False
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'] or 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
@@ -16,33 +18,40 @@ class Config(object):
 
 
 class DevelopmentConfig(Config):
+
     """
     Development configurations.
     """
+
     DEBUG = True
     SQLALCHEMY_ECHO = True
 
 
 class ProductionConfig(Config):
+
     """
     Production configurations.
     """
+
     DEBUG = False
     TESTING = False
 
 
 class TestingConfig(Config):
+
     """
     Testing configurations.
     """
+
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.getenv("TEST_DATABASE_URI")
-    #
     PRESERVE_CONTEXT_ON_EXCEPTION = False
 
 
 app_config = {
+
     'development': DevelopmentConfig,
     'production': ProductionConfig,
     'testing': TestingConfig
+
 }
