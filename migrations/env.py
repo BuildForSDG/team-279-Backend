@@ -61,6 +61,7 @@ def run_migrations_online():
 
     In this scenario we need to create an Engine\
     and associate a connection with the context.
+    pydocstyle - -ignore = D101, D213
     """
 
     # this callback is used to prevent an auto-migration from being generated

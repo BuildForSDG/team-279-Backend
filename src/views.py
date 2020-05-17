@@ -20,7 +20,7 @@ def create_admin_user():
 
     # noinspection PyArgumentList
     username = "admin"
-    password = "admin1234"
+    password = "****"
     admin = User(username=username, password=password)
     db.session.add(admin)
     db.session.commit()

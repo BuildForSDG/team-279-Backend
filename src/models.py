@@ -145,5 +145,6 @@ class Tender(db.Model):
         """
         :param: tender_id.
         :return:.
+        pydocstyle - -ignore = D101, D213
         """
         return '<tender_id {}>'.format(self.tender_id)

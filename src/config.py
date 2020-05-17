@@ -7,6 +7,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
     """Common configurations.
+    pydocstyle - -ignore = D101, D213
     """
 
     DEBUG = False
@@ -18,6 +19,7 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     """Development configurations.
+    pydocstyle - -ignore = D101, D213
     """
 
     DEBUG = True
@@ -26,6 +28,7 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     """Production configurations.
+    pydocstyle - -ignore = D101, D213
     """
 
     DEBUG = False
@@ -34,6 +37,7 @@ class ProductionConfig(Config):
 
 class TestingConfig(Config):
     """Testing configurations.
+    pydocstyle - -ignore = D101, D213
     """
 
     TESTING = True

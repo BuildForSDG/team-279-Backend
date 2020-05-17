@@ -4,6 +4,7 @@ empty message.
 Revision ID: c1b09bd9172a.
 Revises: ''
 Create Date: 2020-05-17 19:31:44.331203.
+pydocstyle - -ignore = D101, D213
 """
 from alembic import op
 import sqlalchemy as sa

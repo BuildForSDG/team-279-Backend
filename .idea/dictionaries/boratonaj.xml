@@ -5,6 +5,7 @@
       <w>dependecy</w>
       <w>gunicorn</w>
       <w>olabode</w>
+      <w>pydocstyle</w>
       <w>pyproject</w>
       <w>sqlalchemy</w>
       <w>tful</w>

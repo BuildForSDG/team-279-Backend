@@ -168,6 +168,7 @@ def delete_tender(tender_id):
     delete a single tender.
     URL: /api/v1/tenders/<tender_id>
     Request methods: DELETE
+    pydocstyle - -ignore = D101, D213
     """
     tender = Tender.query.get(tender_id)
     if tender:
