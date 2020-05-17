@@ -1,7 +1,8 @@
-"""empty message
+"""
+empty message
 
 Revision ID: c1b09bd9172a
-Revises: 
+Revises: ''
 Create Date: 2020-05-17 19:31:44.331203
 
 """

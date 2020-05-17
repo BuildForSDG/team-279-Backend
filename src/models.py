@@ -8,9 +8,9 @@ from src.app import db, app, login_manager
 
 
 class User(db.Model, UserMixin):
-    """Users will be able to register and login.
-    They will also get a token that will allow
-    them to make requests.
+    """
+    Users will be able to register and login.
+    They will also get a token that will allow them to make requests.
     """
 
     __tablename__ = "users"
@@ -23,24 +23,20 @@ class User(db.Model, UserMixin):
 
     @property
     def password(self):
-        """Prevents access to password property
-        """
+        """ Prevents access to password property. """
         raise AttributeError("Password is not a readable attribute.")
 
     @password.setter
     def password(self, password):
-        """Sets password to a hashed password
-        """
+        """ Sets password to a hashed password. """
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
-        """Checks if password matches
-        """
+        """ Checks if password matches. """
         return check_password_hash(self.password_hash, password)
 
     def generate_auth_token(self, user_id):
-        """Generates the auth token and returns it
-        """
+        """ Generates the auth token and returns it. """
         try:
             payload = {
                 "exp": dt.datetime.now() + dt.timedelta(
@@ -58,8 +54,7 @@ class User(db.Model, UserMixin):
 
     @staticmethod
     def decode_auth_token(auth_token):
-        """Decodes the auth token
-        """
+        """ Decodes the auth token. """
         try:
             payload = jwt.decode(auth_token, app.config.get("SECRET_KEY"),
                                  options={'verify_iat': False})
@@ -104,7 +99,6 @@ class Tender(db.Model):
                  InstitutionPersonPhone, companyName, companyRegistrationNo, directors, cellNumber, companyAddress,
                  awardedPoint):
         """
-
         :param tenderNumber:
         :param tenderDescription:
         :param category:
@@ -147,5 +141,4 @@ class Tender(db.Model):
         :param: tender_id .
         :return:
         """
-
         return '<tender_id {}>'.format(self.tender_id)

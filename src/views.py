@@ -1,7 +1,7 @@
 import json
 import os
 import requests
-from flask import flash, redirect, render_template, request, url_for, jsonify
+from flask import redirect, render_template, request, url_for
 from flask_login import login_required, login_user, logout_user
 from src.app import app, db
 from src.models import Tender, User
@@ -18,6 +18,7 @@ def create_admin_user():
         db.session.delete(admin)
         db.session.commit()
 
+    # noinspection PyArgumentList
     admin = User(username="admin", password="admin1234")
     db.session.add(admin)
     db.session.commit()

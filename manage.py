@@ -12,12 +12,9 @@ manager.add_command("db", flask_migrate.MigrateCommand)
 
 
 def make_shell_context():
-
-    """
-    :param:
+    """:param:.
     :return: application and database instances to the shell importing them automatically on python manager.py shell.
     """
-    
     return dict(app=app, db=db, Tender=Tender)
 
 
