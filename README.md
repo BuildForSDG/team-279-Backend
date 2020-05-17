@@ -20,14 +20,15 @@ This is a simple python starter repo template for setting up your project. The s
 - flake8: for linting and formatting
 
 ## Backend App and API
+
 - It has the following relational entities:
 
-    ``
-    Tender
-    ``
+  ``
+  Tender
+  ``
 - It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
-- Only an authorized user can access the endpoints
 
+- Only an authorized user can access the endpoints
 
 ## Why
 
@@ -42,54 +43,55 @@ You should have **Python 3.5+** and **git** installed.
 
 1. Clone the repo you've created from the template herein and change into the directory
 
-    ``
-    git clone https://github.com/BuildForSDG/team-279-Backend
-    ``
+   ``
+   git clone https://github.com/BuildForSDG/team-279-Backend
+   ``
 
 2. Change into repo directory by navigating into the root folder:
 
-    ``
-    cd team-279-Backend
-    ``
+   ``
+   cd team-279-Backend
+   ``
 
 3. Install poetry, a dependecy manager for python.
 
-    On windows, you will need powershell to install it:
+   On windows, you will need powershell to install it:
 
-    ``
-    (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
-    ``
+   ``
+   (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
+   ``
 
-    After that you will need to restart the shell to make it operational.
+   After that you will need to restart the shell to make it operational.
 
-    &nbsp;
+   &nbsp;
 
-    On linux and other posix systems (mac included):
+   On linux and other posix systems (mac included):
 
-    ``
-    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-    ``
+   ``
+   curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+   ``
 
-    &nbsp;
+   &nbsp;
 
-    To check that it is correctly installed, you can check the version:
-    ``
-    poetry --version
-    ``
+   To check that it is correctly installed, you can check the version:
+   
+   ``
+   poetry --version
+   ``
 
-    May be the latest stable version is not installed with the installation script, to update poetry, you can run:
+   May be the latest stable version is not installed with the installation script, to update poetry, you can run:
 
-    ``
-    poetry self update
-    ``
+   ``
+   poetry self update
+   ``
 
 4. With poetry installed, you should install project dependecies by running:
 
-    ``
-    poetry install
-    ``
+   ``
+   poetry install
+   ``
 
-    This will install pytest for running tests and flake8, linter for your project.
+   This will install pytest for running tests and flake8, linter for your project.
 
 #### To Note
 `src/app.py` is the entry to the project and source code should go into the `src` folder.
@@ -99,13 +101,24 @@ All tests should be written in the `tests` folder. tests/test_src.py is a sample
 
 #### Hints
 
-- Lint: `poetry run flake8`
-- Run tests using the command: `poetry run pytest`
+- Lint: 
+
+  `poetry run flake8`
+
+- Run tests using the command: 
+  
+  `poetry run pytest`
+
 - Install dependencies: 
+
   `poetry add <dependency>`
+  
 - Install dev dependencies:
+
   `poetry add --dev <dev-dependency>`
+  
 - Run your project:
+
   `poetry run app`
 
 
@@ -115,20 +128,20 @@ We create the MySQL database. Ensure you have MySQL installed and running, and t
 ## Create dotenv
 Create a `.env` file with the following keys:
 
-    ```
-    SECRET_KEY
-    DATABASE_URI - for SQLAlchemy
-    TEST_DATABASE_URI - for SQLAlchemy
-    ENVIRONMENT - this is either production or development
-    ```
+   ```
+   SECRET_KEY
+   DATABASE_URI - for SQLAlchemy
+   TEST_DATABASE_URI - for SQLAlchemy
+   ENVIRONMENT - this is either production or development
+   ```
 ## Database Migration
 Initialize, migrate, and upgrade the database:
 
-    ```
-    python manage.py db init
-    python manage.py db migrate
-    python manage.py db upgrade
-    ```
+   ```
+   python manage.py db init
+   python manage.py db migrate
+   python manage.py db upgrade
+   ```
 
 ## Launching the Program
 Run ```python __main__.py```. You may use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Google Chrome to run the API.
@@ -162,7 +175,9 @@ Updating a tender:
 
 
 ## Authors
+
 List the team behind this project. Their names linked to their Github, LinkedIn, or Twitter accounts should suffice. Ok to signify the role they play in the project, including the TTL and mentor
+
 1. Ajay Olabode [Github](https://github.com/boratonAJ) [LinkedIn](https://www.linkedin.com/in/boraton/) [TTL](https://github.com/orgs/BuildForSDG/teams/team-279)
  
 ## Contributing
