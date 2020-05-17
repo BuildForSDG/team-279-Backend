@@ -132,7 +132,7 @@ We create the MySQL database. Ensure you have MySQL installed and running, and t
 
 Create a ```.env``` file with the following keys:
 
-   ```
+   ```py
    SECRET_KEY
 
    DATABASE_URI - for SQLAlchemy
