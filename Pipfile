@@ -21,7 +21,7 @@ jwt = "*"
 flask-restful = "*"
 pbr = "==4.2.0"
 six = "==1.11.0"
-
+psycopg2-binary = "*"
 
 [requires]
 python_version = "3.7"
