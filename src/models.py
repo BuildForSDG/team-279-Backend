@@ -46,6 +46,7 @@ class Tender(db.Model):
         :param companyAddress:
         :param awardedPoint:
         """
+
         self.tenderNumber = tenderNumber
         self.tenderDescription = tenderDescription
         self.category = category
@@ -65,8 +66,10 @@ class Tender(db.Model):
         self.awardedPoint = awardedPoint
 
     def __repr__(self):
+
         """
         :param: tender_id.
         :return:
         """
+
         return '<tender_id {}>'.format(self.tender_id)

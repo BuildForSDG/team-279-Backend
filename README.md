@@ -176,19 +176,22 @@ Run ```python __main__.py```. You may use [Postman](https://chrome.google.com/we
 
 Registering and logging in to get a JWT token:
 
--  ![User Registration]()
+- ![User Registration]()
 
--  ![User Login]()
+- ![User Login]()
 
 Updating a tender:
 
--  ![Updating Tender]()
+- ![Updating Tender]()
 
 
 ## Built With
--  [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
--  [Flask](http://flask.pocoo.org/)
--  [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
+
+- [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
+
+- [Flask](http://flask.pocoo.org/)
+
+- [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
 
 
 ## Authors
@@ -198,6 +201,7 @@ List the team behind this project. Their names linked to their Github, LinkedIn,
 1. Ajay Olabode [Github](https://github.com/boratonAJ) [LinkedIn](https://www.linkedin.com/in/boraton/) [TTL](https://github.com/orgs/BuildForSDG/teams/team-279)
  
 ## Contributing
+
 If this project sounds interesting to you and you'd like to contribute, thank you!
 First, you can send a mail to buildforsdg@andela.com to indicate your interest, why you'd like to support and what forms of support you can bring to the table, but here are areas we think we'd need the most help in this project :
 1.  area one (e.g this app is about human trafficking and you need feedback on your roadmap and feature list from the private sector / NGOs)
@@ -213,4 +217,5 @@ Did someone’s blog post spark off a wonderful idea or give you a solution to n
 It's powerful to always give credit.
 
 ## LICENSE
+
 MIT
