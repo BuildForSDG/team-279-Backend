@@ -4,7 +4,6 @@ A one-liner phrase describing this project or app
 [![Codacy Badge](https://img.shields.io/badge/Code%20Quality-D-red)](https://img.shields.io/badge/Code%20Quality-D-red)
 [![Code Health](https://landscape.io/github/BuildForSDG/team-279-Backend/master/landscape.svg?style=flat)](https://landscape.io/github/BuildForSDG/team-279-Backend)
 
-
 ## About
 
 What is this project about. Ok to enrich here or the section above it with an image. 
@@ -21,145 +20,141 @@ This is a simple python starter repo template for setting up your project. The s
 
 ## Backend App and API
 
--  It has the following relational entities:
+-   It has the following relational entities:
 
-   ``
-   Tender
-   ``
+    ``
+    Tender
+    ``
    
--  It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
+-   It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
 
--  Only an authorized user can access the endpoints
+-   Only an authorized user can access the endpoints
 
 ## Why
 
 Talk about what problem this solves, what SDG(s) and SGD targets it addresses and why these are important
 
 ## Usage
+
 How would someone use what you have built, include URLs to the deployed app, service e.t.c when you have it setup
 
 ## Installation and Set Up
 
 You should have **Python 3.5+** and **git** installed. 
 
-1. Clone the repo you've created from the template herein and change into the directory
+1.  Clone the repo you've created from the template herein and change into the directory
 
-   ``
-   git clone https://github.com/BuildForSDG/team-279-Backend
-   ``
+    ``
+    git clone https://github.com/BuildForSDG/team-279-Backend
+    ``
 
-2. Change into repo directory by navigating into the root folder:
+2.  Change into repo directory by navigating into the root folder:
 
-   ``
-   cd team-279-Backend
-   ``
+    ``
+    cd team-279-Backend
+    ``
 
-3. Install poetry, a dependecy manager for python.
+3.  Install poetry, a dependecy manager for python.
 
-   On windows, you will need powershell to install it:
+    On windows, you will need powershell to install it:
 
-   ``
-   (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
-   ``
+    ``
+    (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
+    ``
 
-   After that you will need to restart the shell to make it operational.
+    After that you will need to restart the shell to make it operational.
 
-   &nbsp;
+    &nbsp;
 
-   On linux and other posix systems (mac included):
+    On linux and other posix systems (mac included):
 
-   ``
-   curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-   ``
+    ``
+    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+    ``
 
-   &nbsp;
+    &nbsp;
 
-   To check that it is correctly installed, you can check the version:
+    To check that it is correctly installed, you can check the version:
    
-   ``
-   poetry --version
-   ``
+    ``
+    poetry --version
+    ``
 
-   May be the latest stable version is not installed with the installation script, to update poetry, you can run:
+    May be the latest stable version is not installed with the installation script, to update poetry, you can run:
 
-   ``
-   poetry self update
-   ``
+    ``
+    poetry self update
+    ``
 
-4. With poetry installed, you should install project dependecies by running:
+4.  With poetry installed, you should install project dependecies by running:
 
-   ``
-   poetry install
-   ``
+    ``
+    poetry install
+    ``
 
-   This will install pytest for running tests and flake8, linter for your project.
+    This will install pytest for running tests and flake8, linter for your project.
 
 #### To Note
+
 `src/app.py` is the entry to the project and source code should go into the `src` folder.
 
 ## Testing
+
 All tests should be written in the `tests` folder. tests/test_src.py is a sample test file that shows how tests should like. Feel free to delete it.
 
 #### Hints
 
--  Lint: 
+-   Lint: 
 
-   `poetry run flake8`
+    `poetry run flake8`
 
--  Run tests using the command: 
+-   Run tests using the command: 
   
-   `poetry run pytest`
+    `poetry run pytest`
 
--  Install dependencies: 
+-   Install dependencies: 
 
-   `poetry add <dependency>`
+    `poetry add <dependency>`
   
--  Install dev dependencies:
+-   Install dev dependencies:
 
-   `poetry add --dev <dev-dependency>`
+    `poetry add --dev <dev-dependency>`
   
--  Run your project:
+-   Run your project:
 
-   `poetry run app`
+    `poetry run app`
 
 ## Database Setup
+
 We create the MySQL database. Ensure you have MySQL installed and running, and then log in as the root user:
 
 ## Create dotenv
+
 Create a ```.env``` file with the following keys:
 
-   ``
+   ```
    SECRET_KEY
-   ``
-   
-   ``
+
    DATABASE_URI - for SQLAlchemy
-   ``
-   
-   ``
+
    TEST_DATABASE_URI - for SQLAlchemy
-   ``
-   
-   ``
+
    ENVIRONMENT - this is either production or development
-   ``
+   ```
    
 ## Database Migration
 Initialize, migrate, and upgrade the database:
 
-   ``
+   ```
    python manage.py db init
-   ``
-   
-   ``
+
    python manage.py db migrate
-   ``
-   
-   ``
+
    python manage.py db upgrade
-   ``
+   ```
 
 ## Launching the Program
+
 Run ```python __main__.py```. You may use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Google Chrome to run the API.
 
 ## API Endpoints
@@ -176,14 +171,13 @@ Run ```python __main__.py```. You may use [Postman](https://chrome.google.com/we
 
 Registering and logging in to get a JWT token:
 
-- ![User Registration]()
+-  ![User Registration]()
 
-- ![User Login]()
+-  ![User Login]()
 
 Updating a tender:
 
-- ![Updating Tender]()
-
+-  ![Updating Tender]()
 
 ## Built With
 
@@ -192,7 +186,6 @@ Updating a tender:
 -  [Flask](http://flask.pocoo.org/)
 
 -  [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
-
 
 ## Authors
 

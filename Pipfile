@@ -15,6 +15,7 @@ myapplication = "*"
 flask-script = "*"
 flask-migrate = "*"
 python-dotenv = "*"
+pep257 = "*"
 
 [requires]
 python_version = "3.7"
