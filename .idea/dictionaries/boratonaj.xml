@@ -3,6 +3,7 @@
     <words>
       <w>codacy</w>
       <w>dependecy</w>
+      <w>gunicorn</w>
       <w>olabode</w>
       <w>pyproject</w>
       <w>sqlalchemy</w>

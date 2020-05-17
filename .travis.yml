@@ -1,0 +1,14 @@
+language: python
+python:
+  - "3.7"
+# command to install dependencies
+install:
+  - pipenv install
+# db configurations
+services:
+  - postgresql
+before_script:
+  - psql -c "CREATE DATABASE vtenderapi;" -U postgres
+  - psql -c "CREATE USER testuser WITH PASSWORD '1234';" -U postgres
+# command to run tests
+script: nose2
