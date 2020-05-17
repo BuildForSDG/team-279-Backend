@@ -24,13 +24,10 @@ class TenderSchema(ma.Schema):
     """
     Tender schema field.
     """
-
     class Meta:
-
         """
         Inheritance.
         """
-
         fields = ('id', 'tenderNumber', 'tenderDescription', 'category', 'datePublished', 'closingDate', 'tenderStatus',
                   'nameOfInstitution', 'officalLocation', 'InstitutionContactPerson', 'InstitutionPersonEmail',
                   'InstitutionPersonPhone', 'companyName', 'companyRegistrationNo', 'directors', 'cellNumber',

@@ -187,18 +187,18 @@ Updating a tender:
 
 ## Built With
 
-- [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
+-  [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
 
-- [Flask](http://flask.pocoo.org/)
+-  [Flask](http://flask.pocoo.org/)
 
-- [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
+-  [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
 
 
 ## Authors
 
-List the team behind this project. Their names linked to their Github, LinkedIn, or Twitter accounts should suffice. Ok to signify the role they play in the project, including the TTL and mentor
+List the team behind this project. Their names linked to their Github, LinkedIn, or Twitter accounts should suffice. Ok to signify the role they play in the project, including the TTL and mentor.
 
-1. Ajay Olabode [Github](https://github.com/boratonAJ) [LinkedIn](https://www.linkedin.com/in/boraton/) [TTL](https://github.com/orgs/BuildForSDG/teams/team-279)
+1.  Ajay Olabode [Github](https://github.com/boratonAJ) [LinkedIn](https://www.linkedin.com/in/boraton/) [TTL](https://github.com/orgs/BuildForSDG/teams/team-279)
  
 ## Contributing
 
