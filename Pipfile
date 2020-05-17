@@ -16,6 +16,10 @@ flask-script = "*"
 flask-migrate = "*"
 python-dotenv = "*"
 pep257 = "*"
+requests = "*"
+flask-login = "*"
+jwt = "*"
+flask-restful = "*"
 
 [requires]
 python_version = "3.7"
