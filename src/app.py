@@ -4,9 +4,10 @@ import os
 from src.config import app_config
 from flask import Flask, request, jsonify
 from flask_login import LoginManager
-
+import sys
 
 app = Flask(__name__)
+
 app.config.from_object(app_config[os.getenv('ENVIRONMENT')])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -21,16 +22,15 @@ login_manager.login_view = "login"
 db.init_app(app)
 
 from src.models import Tender
-
-# init ma
+# init mas
 ma = Marshmallow(app)
 
 
 if os.getenv("ENVIRONMENT") == "development":
     path = "http://127.0.0.1:5000"
 else:
-    path = "https://team-279-Backend-develop.herokuapp.com"
-
+    path = "https://git.heroku.com/vtender-api.git"
+from flask_cors import CORS
 
 # Tender schema
 class TenderSchema(ma.Schema):
@@ -48,19 +48,14 @@ class TenderSchema(ma.Schema):
                   'companyAddress', 'awardedPoint')
 
 
+CORS(app, resources=r'/api/*', allow_headers='Content-Type')
 # init schema
 tender_schema = TenderSchema()
 tenders_schema = TenderSchema(many=True)
 
-
 # Get All products
 @app.route('/api/v1/tenders', methods=['GET'])
 def get_tenders():
-    """
-    View all tenders
-    URL: /api/v1/tenders
-    Request methods: GET
-    """
     all_tenders = Tender.query.all()
     result = tenders_schema.dump(all_tenders)
     return jsonify(result)
@@ -69,12 +64,6 @@ def get_tenders():
 # Create a Tender
 @app.route('/api/v1/tenders', methods=['POST'])
 def add_tender():
-
-    """
-    add new tender
-    URL: /api/v1/tenders
-    Request methods: POST
-    """
     if request.method == 'POST':
         tenderNumber = request.json['tenderNumber']
         tenderDescription = request.json['tenderDescription']
@@ -106,16 +95,9 @@ def add_tender():
     else:
         return {"error": "Specified tender doesn't exit!"}, 404
 
-
 # Update Product
 @app.route('/api/v1/tenders/<tender_id>', methods=['PUT'])
 def update_tender(tender_id):
-
-    """
-    update a single tender.
-    URL: /api/v1/tenders/<tender_id>
-    Request methods: PUT
-    """
     tender = Tender.query.get(tender_id)
     if tender:
         tenderNumber = request.json['tenderNumber']
@@ -164,12 +146,6 @@ def update_tender(tender_id):
 # Delete Product
 @app.route('/api/v1/tenders/<tender_id>', methods=['DELETE'])
 def delete_tender(tender_id):
-    """
-    delete a single tender.
-    URL: /api/v1/tenders/<tender_id>
-    Request methods: DELETE
-    pydocstyle - -ignore = D101, D213
-    """
     tender = Tender.query.get(tender_id)
     if tender:
         db.session.delete(tender)
@@ -178,10 +154,6 @@ def delete_tender(tender_id):
     else:
         return {"error": "A tender with ID " + tender_id + " does not exist."}, 404
 
-
-# Get Tender by Tender Number
-# we should make the tender number cases sensitive
-# deployment on heroku: Flask deployment
 @app.route('/api/v1/tenders/<tenderNumber>', methods=['GET'])
 def get_tender(tenderNumber):
     tender = Tender.query.filter_by(tenderNumber=tenderNumber).first_or_404()

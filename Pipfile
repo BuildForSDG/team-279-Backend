@@ -22,6 +22,9 @@ flask-restful = "*"
 pbr = "==4.2.0"
 six = "==1.11.0"
 psycopg2-binary = "*"
+psycopg2 = "*"
+gunicorn = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.7"

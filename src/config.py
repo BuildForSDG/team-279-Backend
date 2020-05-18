@@ -9,12 +9,18 @@ class Config(object):
     """Common configurations.
     pydocstyle - -ignore = D101, D213
     """
-
-    DEBUG = False
-    TESTING = False
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'] or 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    if os.getenv("ENVIRONMENT") == "production":
+        DEBUG = False
+        TESTING = False
+        SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+        SQLALCHEMY_DATABASE_URI = 'postgres://gxbsxwxjlbmpot:6e1252a7f2363c49451d93620fd3fe65366a1e785a41d12cbf8d975e37d56780@ec2-34-232-147-86.compute-1.amazonaws.com:5432/d6i9nenaoci57r'
+        SQLALCHEMY_TRACK_MODIFICATIONS = False
+    else:
+        DEBUG = False
+        TESTING = False
+        SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+        SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'] or 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
+        SQLALCHEMY_TRACK_MODIFICATIONS = False    
 
 
 class DevelopmentConfig(Config):

@@ -1,15 +1,16 @@
 import json
 import os
 import requests
-from flask import redirect, render_template, request, url_for
+from flask import redirect, render_template, request, url_for, session
 from flask_login import login_required, login_user, logout_user
 from src.app import app, db
 from src.models import Tender, User
+from flask_cors import CORS
 
 if os.getenv("ENVIRONMENT") == "development":
     path = "http://127.0.0.1:5000"
 else:
-    path = "https://team-279-Backend-develop.herokuapp.com"
+    path = "https://vtender-api.herokuapp.com/"
 
 
 def create_admin_user():
@@ -25,7 +26,6 @@ def create_admin_user():
     db.session.add(admin)
     db.session.commit()
 
-
 def get_token():
     admin = {"username": "admin",
              "password": "admin1234"}
@@ -34,12 +34,12 @@ def get_token():
     token = output["token"]
     return {"Authorization": token}
 
-
 def has_no_empty_params(rule):
     defaults = rule.defaults if rule.defaults is not None else ()
     arguments = rule.arguments if rule.arguments is not None else ()
     return len(defaults) >= len(arguments)
 
+CORS(app, resources=r'/api/*')
 
 @app.route("/site-map")
 def site_map():
@@ -53,7 +53,6 @@ def site_map():
     # links is now a list of url, endpoint tuples
     print(links)
     return render_template('login.html', title='Login')
-
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
