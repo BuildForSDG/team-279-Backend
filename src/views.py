@@ -3,7 +3,7 @@ import os
 import requests
 from flask import redirect, render_template, request, url_for
 from flask_login import login_required, login_user, logout_user
-from src.app import app, db
+from src.tender import app, db
 from src.models import Tender, User
 
 if os.getenv("ENVIRONMENT") == "development":
@@ -19,16 +19,16 @@ def create_admin_user():
         db.session.commit()
 
     # noinspection PyArgumentList
-    username = "admin"
-    password = "****"
+    username = "teamAdmin"
+    password = "teamAdmin1234"
     admin = User(username=username, password=password)
     db.session.add(admin)
     db.session.commit()
 
 
 def get_token():
-    admin = {"username": "admin",
-             "password": "admin1234"}
+    admin = {"username": "teamAdmin",
+             "password": "teamAdmin1234"}
     response = requests.post(path + "/api/v1/auth/login", data=admin)
     output = json.loads(response.text)
     token = output["token"]

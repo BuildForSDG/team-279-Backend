@@ -150,6 +150,20 @@ Initialize, migrate, and upgrade the database:
 
    python manage.py db migrate
 
+ "companyName": "",
+    "companyRegistrationNo": "",
+    "directors": "",
+    "cellNumber": "",
+    "companyAddress": "",
+    "tenderStatus": "open",
+    "awardedPoint": "",
+    "apply_count": "1",
+    "global_apply_count": "1",
+    "global_winning_count": "1",
+    "winning_count": "0",
+    "global_winning_count": "0",
+    "companyObj_id": "1"
+
    python manage.py db upgrade
    ```
 

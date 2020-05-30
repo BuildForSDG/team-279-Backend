@@ -1,7 +1,7 @@
 import os
 import flask_migrate
 from flask_script import Manager, Shell
-from src.app import app, db
+from src.tender import app, db
 from src.models import Tender
 
 basedir = os.path.abspath(os.path.dirname(__file__))
