@@ -3,8 +3,13 @@ import os
 import requests
 from flask import redirect, render_template, request, url_for
 from flask_login import login_required, login_user, logout_user
-from src.app import app, db
+from src import app, db
 from src.models import Tender, User
+from flask import request, jsonify
+from flask import Blueprint
+
+
+users = Blueprint('users', __name__)
 
 if os.getenv("ENVIRONMENT") == "development":
     path = "http://127.0.0.1:5000"
@@ -19,16 +24,16 @@ def create_admin_user():
         db.session.commit()
 
     # noinspection PyArgumentList
-    username = "admin"
-    password = "****"
+    username = "teamAdmin"
+    password = "teamAdmin1234"
     admin = User(username=username, password=password)
     db.session.add(admin)
     db.session.commit()
 
 
 def get_token():
-    admin = {"username": "admin",
-             "password": "admin1234"}
+    admin = {"username": "teamAdmin",
+             "password": "teamAdmin1234"}
     response = requests.post(path + "/api/v1/auth/login", data=admin)
     output = json.loads(response.text)
     token = output["token"]
