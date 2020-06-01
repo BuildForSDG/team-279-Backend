@@ -12,33 +12,6 @@ tender_schema = TenderSchema()
 tenders_schema = TenderSchema(many=True)
 
 
-@companies.route('/api/v1/display_company/<tenderNumber>', methods=['GET'])
-def display_company(tenderNumber):
-    if request.method == 'GET':
-        company_query = Company.query.filter_by(tenderNumber=tenderNumber)
-        company_list_dictionary = companies_schema.dump(company_query)
-        tender_client = db.session.query(Tender).filter_by(tenderNumber=tenderNumber)
-        tender_list_of_dict = tenders_schema.dump(tender_client)
-        for tender_dict in tender_list_of_dict:
-            for key in list(tender_dict.keys()):
-                for company_names_dict in company_list_dictionary:
-                    if key in list(company_names_dict.keys()):
-                        if company_names_dict['tender_id'] is None:
-                            company_names_dict['tender_id'] = tender_dict['tender_id']
-                            db.session.commit()
-                            for row in Tender.query.filter_by(tenderNumber=tenderNumber):
-                                row.company_names = company_list_dictionary
-                            db.session.commit()
-        tender_client = db.session.query(Tender).filter_by(tenderNumber=tenderNumber)
-        tenders = tenders_schema.dump(tender_client)
-        if tender_client:
-            return jsonify(tenders)
-        else:
-            return {"error": "A tender with ID " + tenderNumber + " does not exist."}, 404
-    else:
-        return {"error": "Specified tender doesn't exit!"}, 404
-
-
 # Get All companies
 @companies.route('/api/v1/companies', methods=['GET'])
 def get_all_companies():

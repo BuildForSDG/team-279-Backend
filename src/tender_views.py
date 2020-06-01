@@ -219,8 +219,8 @@ def get_tender(tenderNumber):
         return {"error": "A tender with ID " + tenderNumber + " does not exist."}, 404
 
 
-@tenders.route('/api/v1/displayCompany/<tenderNumber>', methods=['GET'])
-def display_company(tenderNumber):
+@tenders.route('/api/v1/display_tender/<tenderNumber>', methods=['GET'])
+def display_tender(tenderNumber):
     if request.method == 'GET':
         company_query = Company.query.filter_by(tenderNumber=tenderNumber)
         company_list_dictionary = companies_schema.dump(company_query)
@@ -237,9 +237,9 @@ def display_company(tenderNumber):
                                 row.company_names = company_list_dictionary
                             db.session.commit()
         tender_client = db.session.query(Tender).filter_by(tenderNumber=tenderNumber)
-        tenders = tenders_schema.dump(tender_client)
+        tender_records = tenders_schema.dump(tender_client)
         if tender_client:
-            return jsonify(tenders)
+            return jsonify(tender_records)
         else:
             return {"error": "A tender with ID " + tenderNumber + " does not exist."}, 404
     else:
