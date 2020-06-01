@@ -1,17 +1,8 @@
 from flask import abort, request, jsonify, Blueprint
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import engine
-from flask import Flask, jsonify
 from src import db
-
 from src.models import Tender, TenderSchema, Company, CompanySchema
 
 companies = Blueprint('companies', __name__)
-
-# import session
-Session = sessionmaker(bind=engine)
-session = Session()
-
 
 # init company schema
 company_schema = CompanySchema()
@@ -49,7 +40,7 @@ def display_company(tenderNumber):
 
 
 # Get All companies
-@companies.route('/api/v1/companies/all', methods=['GET'])
+@companies.route('/api/v1/companies', methods=['GET'])
 def get_all_companies():
     """
     View all companies

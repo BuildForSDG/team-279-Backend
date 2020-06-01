@@ -2,6 +2,9 @@
 __version__ = '0.1.0'
 
 from flask_marshmallow import Marshmallow
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
 from src.config import app_config
 from flask_bootstrap import Bootstrap
 from flask_cors import CORS
@@ -56,6 +59,13 @@ app = create_app(config_name)
 api = Api(app=app, prefix="/api/v1")
 # init ma
 ma = Marshmallow(app)
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+engine = create_engine('sqlite:///:memory:', echo=True)
+Session = sessionmaker(bind=engine)
+session = Session()
 
 from src import models
 # from src import tender_views, company_views

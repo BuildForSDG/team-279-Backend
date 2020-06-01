@@ -1,16 +1,9 @@
 from flask import abort, request, jsonify, Blueprint
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy import engine
-from flask import Flask, jsonify
-from src import db
+from src import db, session
 
 tenders = Blueprint('tenders', __name__)
 
-Session = sessionmaker(bind=engine)
-session = Session()
-
 from src.models import Tender, Company, TenderSchema, CompanySchema
-
 
 # init schema
 tender_schema = TenderSchema()
@@ -19,31 +12,31 @@ tenders_schema = TenderSchema(many=True)
 company_schema = CompanySchema()
 companies_schema = CompanySchema(many=True)
 
-#
-# @app.route('/api/v1/tender/<tender_id>/company/<company_id>', methods=['GET'])
-# def read_one(tender_id, company_id):
-#     """
-#     This function responds to a request for
-#     /api/v1/tender/{tender_id}/companies/{company_id}
-#     with one matching company for the associated tender
-#
-#     :param tender_id:       Id of tender the company is related to
-#     :param company_id:         Id of the company
-#     :return:                json string of company contents
-#     """
-#     # Query the database for the company
-#     company = (Company.query.join(Tender, Tender.tender_id == Company.tender_id).filter(Tender.tender_id == tender_id).filter(
-#             Company.company_id == company_id).all())
-#
-#     # Was a company found?
-#     if company is not None:
-#         data = company_schema.dump(company)
-#         return jsonify(data)
-#
-#     # Otherwise, nope, didn't find that note
-#     else:
-#         abort(404, "Company not found for Id: {}".format(company_id))
 
+@tenders.route('/api/v1/tender/<tender_id>/company/<company_id>', methods=['GET'])
+def read_one(tender_id, company_id):
+    """
+    This function responds to a request for
+    /api/v1/tender/{tender_id}/companies/{company_id}
+    with one matching company for the associated tender
+
+    :param tender_id:       Id of tender the company is related to
+    :param company_id:         Id of the company
+    :return:                json string of company contents
+    """
+    # Query the database for the company
+    company = (
+        Company.query.join(Tender, Tender.tender_id == Company.tender_id).filter(Tender.tender_id == tender_id).filter(
+            Company.company_id == company_id).all())
+
+    # Was a company found?
+    if company is not None:
+        data = company_schema.dump(company)
+        return jsonify(data)
+
+    # Otherwise, nope, didn't find that note
+    else:
+        abort(404, "Company not found for Id: {}".format(company_id))
 
 
 # Get one tender
@@ -80,6 +73,47 @@ def get_tenders():
     return jsonify(result)
 
 
+# Get All tender application products
+@tenders.route('/api/v1/all_tenders_object', methods=['GET'])
+def get_all():
+    """
+    View all tenders
+    URL: /api/v1/all_tenders_object
+    Request methods: GET
+    """
+    if request.method == 'GET':
+        company_query = Company.query.filter()
+        company_list_dictionary = companies_schema.dump(company_query)
+        tender_client = db.session.query(Tender).filter_by()
+        tender_list_of_dict = tenders_schema.dump(tender_client)
+        for tender_dict in tender_list_of_dict:
+            for company_names_dict in company_list_dictionary:
+                for row in Tender.query.filter_by(tenderNumber=str(tender_dict['tenderNumber'])):
+                    if company_names_dict['tenderNumber'] == row.tenderNumber:
+                        row.company_names = {"apply_count": company_names_dict['apply_count'],
+                                                "awardedPoint": company_names_dict['awardedPoint'],
+                                                "companyAddress": company_names_dict['tender_id'],
+                                                "companyName": company_names_dict['companyName'],
+                                                "companyRegistrationNo": company_names_dict['tender_id'],
+                                                "company_id": company_names_dict['company_id'],
+                                                "company_phone_number": company_names_dict['company_phone_number'],
+                                                "directors": company_names_dict['directors'],
+                                                "is_winner": company_names_dict['is_winner'],
+                                                "tenderNumber": row.tenderNumber,
+                                                "tender_id": row.tender_id,
+                                                "winning_count": company_names_dict['winning_count']
+                                              }
+                        db.session.commit()
+            tender_client = db.session.query(Tender).filter()
+            tender_records = tenders_schema.dump(tender_client)
+            if tender_client:
+                return jsonify(tender_records)
+            else:
+                return {"error": "A tender does not exist."}, 404
+    else:
+        return {"error": "Specified tender doesn't exit!"}, 404
+
+
 # Create a Tender
 @tenders.route('/api/v1/tenders', methods=['POST'])
 def add_tender():
@@ -97,7 +131,6 @@ def add_tender():
         InstitutionPersonPhone = request.json['InstitutionPersonPhone']
         global_apply_count = request.json['global_apply_count']
         global_winning_count = request.json['global_winning_count']
-        # company_names = request.json['company_names']
 
         new_tender = Tender(tenderNumber, tenderDescription, category, datePublished, closingDate, tenderStatus,
                             nameOfInstitution, officalLocation, InstitutionContactPerson, InstitutionPersonEmail,
@@ -184,7 +217,6 @@ def get_tender(tenderNumber):
         return tenders_schema.jsonify(tender)
     else:
         return {"error": "A tender with ID " + tenderNumber + " does not exist."}, 404
-
 
 
 @tenders.route('/api/v1/displayCompany/<tenderNumber>', methods=['GET'])

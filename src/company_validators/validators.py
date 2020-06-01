@@ -19,7 +19,8 @@ tenders_schema = TenderSchema(many=True)
 
 def validate_apply_count(tenderNumber):
 
-    company_list_dict = Company.query.filter_by(tenderNumber=tenderNumber)
+    tender_client = db.session.query(Tender).filter_by(tenderNumber=tenderNumber)
+    tenders = tenders_schema.dump(tender_client)
     # company_result = companies_schema.dump(comp_list)
     apply_count = 0
     for company_dict in company_list_dict:
