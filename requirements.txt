@@ -41,3 +41,7 @@ pyparsing==2.4.7
 pytest==5.4.2
 python-decouple==3.3
 flake8==3.8.1
+Flask-Bootstrap==3.3.7.0
+collections-extended==1.0.3
+rq==0.7.1
+redis==2.10.5
