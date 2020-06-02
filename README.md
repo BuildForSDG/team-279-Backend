@@ -1,22 +1,26 @@
-A one-liner phrase describing this project or app
+# VTender Backend APP
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0adca6e719a64b49bb8adea90dd1dc2d)](https://app.codacy.com/gh/BuildForSDG/team-279-Backend?utm_source=github.com&utm_medium=referral&utm_content=BuildForSDG/team-279-Backend&utm_campaign=Badge_Grade_Settings)
 [![Codacy Badge](https://img.shields.io/badge/Code%20Quality-D-red)](https://img.shields.io/badge/Code%20Quality-D-red)
 [![Code Health](https://landscape.io/github/BuildForSDG/team-279-Backend/master/landscape.svg?style=flat)](https://landscape.io/github/BuildForSDG/team-279-Backend)
+[![Build Status](https://travis-ci.org/BuildForSDG/team-279-Backend.svg?branch=develop)](https://travis-ci.org/github/BuildForSDG/team-279-Backend)
+[![Coverage Status](https://coveralls.io/repos/github/BuildForSDG/team-279-Backend/badge.svg?branch=develop)](https://coveralls.io/github/BuildForSDG/team-279-Backend?branch=develop)
+
 
 ## About
 
-What is this project about. Ok to enrich here or the section above it with an image.
+Over the past four years, a number of companies have lost tens of thousands of Rand due to alleged fraudulent request for quotations (RFQS). With this software, small medium and micro enterprises (SMME) can verify the authenticity of Tender(RFQS), and also assist bidders to detect corruption and discrepancies in an awarded tender.
+vTender app is an intuitive web-based UI/UX that has mobile responsive frontend which allows users to verify tender, view list of valid tender(s), and detect awarded tender corruption.
 
-Once this repo has been setup on Codacy by the TTL, replace the above badge with the actual one from the Codacy dashboard, and add the code coverage badge as well. This is mandatory
 
-This is a simple python starter repo template for setting up your project. The setup contains:
+The vTender app addresses the following SDG goals:
 
--   install: poetry via pip. poetry is a dependencies manager.
+-   Provide inclusive for all people while substantially reduce corruption and bribery in Africa countries,as well as globally
+-   Allows anyone, regardless of their literacy abilities, to verify/validate the request for quotation (RFQ) from Government departments/parastatals. 
+-   Allows SMME's to understand how a particular tender is been awarded, as well as to detect discrepancies in an awarded tenders. 
+-   Helps to prevent any act of frauds and corruptions based on an implemented algorithm. 
 
--   poetry: configuration in pyproject.toml
 
--   flake8: for linting and formatting
 
 ## Backend App and API
 
