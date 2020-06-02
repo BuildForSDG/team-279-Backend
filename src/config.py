@@ -9,18 +9,17 @@ class Config(object):
     """Common configurations.
     pydocstyle - -ignore = D101, D213
     """
-    if os.getenv("ENVIRONMENT") == "production":
-        DEBUG = False
-        TESTING = False
-        SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-        SQLALCHEMY_DATABASE_URI = 'postgres://gxbsxwxjlbmpot:6e1252a7f2363c49451d93620fd3fe65366a1e785a41d12cbf8d975e37d56780@ec2-34-232-147-86.compute-1.amazonaws.com:5432/d6i9nenaoci57r'
-        SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    DEBUG = False
+    TESTING = False
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+
+    if os.getenv("ENVIRONMENT") == "development":
+        SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'] or 'sqlite:///' + os.path.join(basedir, 'vtender.sqlite')
     else:
-        DEBUG = False
-        TESTING = False
-        SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-        SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'] or 'sqlite:///' + os.path.join(basedir, 'db.sqlite')
-        SQLALCHEMY_TRACK_MODIFICATIONS = False    
+        SQLALCHEMY_DATABASE_URI = "postgres://nhhchzgsfozdbd:5af056c668950dc85d57ee2b35ca3b27f8c16c08fafdf75307cebcadd00c2842@ec2-52-202-146-43.compute-1.amazonaws.com:5432/d1tf94oqhts4i5"
+
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class DevelopmentConfig(Config):

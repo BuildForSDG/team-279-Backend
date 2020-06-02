@@ -1,16 +1,20 @@
 import json
 import os
 import requests
-from flask import redirect, render_template, request, url_for, session
+from flask import redirect, render_template, request, url_for
 from flask_login import login_required, login_user, logout_user
-from src.app import app, db
+from src import app, db
 from src.models import Tender, User
-from flask_cors import CORS
+from flask import request, jsonify
+from flask import Blueprint
+
+
+users = Blueprint('users', __name__)
 
 if os.getenv("ENVIRONMENT") == "development":
     path = "http://127.0.0.1:5000"
 else:
-    path = "https://vtender-api.herokuapp.com/"
+    path = "https://team-279-Backend-develop.herokuapp.com"
 
 
 def create_admin_user():
@@ -20,26 +24,27 @@ def create_admin_user():
         db.session.commit()
 
     # noinspection PyArgumentList
-    username = "admin"
-    password = "****"
+    username = "teamAdmin"
+    password = "teamAdmin1234"
     admin = User(username=username, password=password)
     db.session.add(admin)
     db.session.commit()
 
+
 def get_token():
-    admin = {"username": "admin",
-             "password": "admin1234"}
+    admin = {"username": "teamAdmin",
+             "password": "teamAdmin1234"}
     response = requests.post(path + "/api/v1/auth/login", data=admin)
     output = json.loads(response.text)
     token = output["token"]
     return {"Authorization": token}
+
 
 def has_no_empty_params(rule):
     defaults = rule.defaults if rule.defaults is not None else ()
     arguments = rule.arguments if rule.arguments is not None else ()
     return len(defaults) >= len(arguments)
 
-CORS(app, resources=r'/api/*')
 
 @app.route("/site-map")
 def site_map():
@@ -53,6 +58,7 @@ def site_map():
     # links is now a list of url, endpoint tuples
     print(links)
     return render_template('login.html', title='Login')
+
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
