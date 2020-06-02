@@ -46,6 +46,5 @@ collections-extended==1.0.3
 rq==0.7.1
 redis==2.10.5
 Flask-Cors==3.0.8
-Flask-Script==2.0.5
 Flask-Compress==1.4.0
 Flask-Assets==0.12
