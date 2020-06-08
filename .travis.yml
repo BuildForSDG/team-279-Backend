@@ -17,12 +17,7 @@ before_script:
   - psql -c "CREATE USER vtendertestuser WITH PASSWORD '1234';" -U postgres
 # command to run tests
 script:
-  - python -m unittest discover -s tests/
+  - pytest --cov-report term --cov=tests/
 
 after_success:
   - coveralls
-
-matrix:
-  include:
-    - python: "3.7"
-      script: "flake8"
