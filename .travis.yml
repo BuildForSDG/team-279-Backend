@@ -17,7 +17,7 @@ before_script:
   - psql -c "CREATE USER vtendertestuser WITH PASSWORD '1234';" -U postgres
 # command to run tests
 script:
-  - pytest --cov-report term --cov vtender tests/
+  - pytest --cov-report term --cov tests/
 
 after_success:
   - coveralls
