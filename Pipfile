@@ -39,6 +39,7 @@ certifi = "*"
 pytest = "*"
 flake8 = "*"
 pytest-cov = "*"
+python-coveralls = "*"
 
 [requires]
 python_version = "3.7"

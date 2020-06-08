@@ -38,12 +38,12 @@ class TestBase(TestCase):
     def setUp(self):
         """Set up test client and populate test database with test data
         """
-
+        self.app = app.test_client()
         with app.app_context():
-            self.app = app.test_client()
-            self.app_context = app.app_context()
+            app = create_app()
+            # self.app_context = app.app_context()
             db.create_all()
-            # db.init_app(app)
+            db.init_app(app)
 
             user = User(username="testuser", password="testpassword")
             tender = Tender(tenderNumber="TENDER124",
