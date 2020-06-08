@@ -4,7 +4,7 @@
 [![Codacy Badge](https://img.shields.io/badge/Code%20Quality-D-red)](https://img.shields.io/badge/Code%20Quality-D-red)
 [![Code Health](https://landscape.io/github/BuildForSDG/team-279-Backend/master/landscape.svg?style=flat)](https://landscape.io/github/BuildForSDG/team-279-Backend)
 [![Build Status](https://travis-ci.org/BuildForSDG/team-279-Backend.svg?branch=develop)](https://travis-ci.org/github/BuildForSDG/team-279-Backend)
-[![Coverage Status](https://coveralls.io/repos/github/BuildForSDG/team-279-Backend/badge.svg?branch=develop)](https://coveralls.io/github/BuildForSDG/team-279-Backend?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/BuildForSDG/team-279-Backend/badge.svg)](https://coveralls.io/github/BuildForSDG/team-279-Backend)
 
 
 ## About
