@@ -4,11 +4,11 @@ python:
 # command to install dependencies
 env:
   global:
-    - APP_SETTINGS ='development'
+    - APP_SETTINGS ='testing'
 # command to install dependencies
 install:
   - pip install -r requirements.txt
-  - "pip install coveralls"
+  - pip install coveralls
 # db configurations
 services:
   - postgresql
@@ -17,7 +17,7 @@ before_script:
   - psql -c "CREATE USER vtendertestuser WITH PASSWORD '1234';" -U postgres
 # command to run tests
 script:
-  - pytest --cov-report term --cov=tests/
+  - pytest --cov-report term --cov vtender tests/
 
 after_success:
   - coveralls

@@ -34,12 +34,11 @@ redis = "*"
 rq = "*"
 flask-httpauth = "*"
 Jinja2 = "*"
-nose2 = "*"
-nose-cov = "*"
 flask-testing = "*"
 certifi = "*"
 pytest = "*"
 flake8 = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.7"
