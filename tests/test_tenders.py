@@ -2,6 +2,8 @@ import json
 from app import status
 from tests import TestBase
 
+path = "http://127.0.0.1:5000"
+
 
 class TestTenders(TestBase):
     """Test /tenders endpoint
@@ -10,7 +12,7 @@ class TestTenders(TestBase):
     def test_list_tenders(self):
         """Test that listing all tenders is successful
         """
-        response = self.app.get("/api/v1/tenders", headers=self.get_token)
+        response = self.app.get(path + "/api/v1/tenders", headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("tenders", response.data.decode('utf-8'))
         output = json.loads(response.data.decode('utf-8'))
@@ -36,7 +38,7 @@ class TestTenders(TestBase):
                                         "'directors': 'ola', 'is_winner': False, 'tenderNumber': 'TENDER002', 'tender_id': 1, "
                                         "'winning_count': None}"
                        }
-        response = self.app.post("/api/v1/tenders", data=self.tender, headers=self.get_token)
+        response = self.app.post(path + "/api/v1/tenders", data=self.tender, headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         output = json.loads(response.data.decode('utf-8'))
         self.assertTrue("You have successfully created a new tender" in output["message"])
@@ -62,7 +64,7 @@ class TestTenders(TestBase):
                                         "'directors': 'ola', 'is_winner': False, 'tenderNumber': 'TENDER105', 'tender_id': 1, "
                                         "'winning_count': None}"
                        }
-        response = self.app.post("/api/v1/tenders", data=self.tender, headers=self.get_token)
+        response = self.app.post(path + "/api/v1/tenders", data=self.tender, headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         output = json.loads(response.data.decode('utf-8'))
         expected_response = {"tenderNumber": "Please enter a tender number."}
@@ -76,7 +78,7 @@ class TestTender(TestBase):
     def test_get_tender(self):
         """Test that one can see details of selected tender
         """
-        response = self.app.get("/api/v1/tenders/TENDER002", headers=self.get_token)
+        response = self.app.get(path + "/api/v1/tenders/TENDER002", headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         output = json.loads(response.data.decode('utf-8'))
         self.assertEqual("TENDER002", output["tenderNumber"])
@@ -87,7 +89,7 @@ class TestTender(TestBase):
         """Test that trying to get a tender with a
         non-existent tenderNumber will be unsuccessful
         """
-        response = self.app.get("/api/v1/students/TENDER003", headers=self.get_token)
+        response = self.app.get(path + "/api/v1/students/TENDER003", headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         output = json.loads(response.data.decode('utf-8'))
         self.assertEqual(output, {"error": "A tender with tender number TENDER003 "
@@ -99,7 +101,7 @@ class TestTender(TestBase):
         rest remain the same.
         """
         self.tender = {"tenderNumber": "TENDER002"}
-        response = self.app.put("/api/v1/tenders/ST001", data=self.tender, headers=self.get_token)
+        response = self.app.put(path + "/api/v1/tenders/TENDER002", data=self.tender, headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         output = json.loads(response.data.decode('utf-8'))
         self.assertEqual("You have successfully edited the tender", output["message"])
@@ -109,7 +111,7 @@ class TestTender(TestBase):
     def test_delete_tender(self):
         """Test that one can delete a selected tender.
         """
-        response = self.app.delete("/api/v1/tenders/ST001", headers=self.get_token)
+        response = self.app.delete(path + "/api/v1/tenders/TENDER002", headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         output = json.loads(response.data.decode('utf-8'))
         self.assertEqual(output, {"message": "You have successfully "

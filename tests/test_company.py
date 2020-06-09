@@ -2,6 +2,7 @@ import json
 from app import status
 from tests import TestBase
 
+path = "http://127.0.0.1:5000"
 
 class TestCompanies(TestBase):
     """Test /company endpoint
@@ -10,7 +11,7 @@ class TestCompanies(TestBase):
     def test_list_company(self):
         """Test that listing all company is successful
         """
-        response = self.app.get("/api/v1/company", headers=self.get_token)
+        response = self.app.get(path + "/api/v1/company", headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn("company", response.data.decode('utf-8'))
         output = json.loads(response.data.decode('utf-8'))
@@ -30,7 +31,7 @@ class TestCompanies(TestBase):
                         "awardedPoint": 35,
                         "tenderNumber": "TENDER125"
                         }
-        response = self.app.post("/api/v1/company", data=self.company, headers=self.get_token)
+        response = self.app.post(path + "/api/v1/company", data=self.company, headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         output = json.loads(response.data.decode('utf-8'))
         self.assertTrue("You have successfully created a new company" in output["message"])
@@ -50,7 +51,7 @@ class TestCompanies(TestBase):
                         "awardedPoint": 35,
                         "tenderNumber": ""
                         }
-        response = self.app.post("/api/v1/company", data=self.company, headers=self.get_token)
+        response = self.app.post(path + "/api/v1/company", data=self.company, headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         output = json.loads(response.data.decode('utf-8'))
         expected_response = {"companyRegistrationNo": "Please enter valid company registration number."}
@@ -66,7 +67,7 @@ class TestCompany(TestBase):
         """
         Test that one can see details of selected company
         """
-        response = self.app.get("/api/v1/company/TENDER125", headers=self.get_token)
+        response = self.app.get(path + "/api/v1/company/TENDER125", headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         output = json.loads(response.data.decode('utf-8'))
         self.assertEqual("Minerva", output["companyName"])
@@ -77,7 +78,7 @@ class TestCompany(TestBase):
         Test that trying to get a company with a
         non-existent ID will be unsuccessful
         """
-        response = self.app.get("/api/v1/company/TENDER128", headers=self.get_token)
+        response = self.app.get(path + "/api/v1/company/TENDER128", headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         output = json.loads(response.data.decode('utf-8'))
         self.assertEqual(output, {"error": "A company with tender number TENDER128 "
@@ -90,7 +91,7 @@ class TestCompany(TestBase):
         """
         self.company = {"companyRegistrationNo": "AGL/10245/211",
                         "companyName": "Chevron Oil and Gas"}
-        response = self.app.put("/api/v1/company/TENDER128", data=self.company, headers=self.get_token)
+        response = self.app.put(path + "/api/v1/company/TENDER128", data=self.company, headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         output = json.loads(response.data.decode('utf-8'))
         self.assertEqual("You have successfully edited the company", output["message"])
@@ -100,7 +101,7 @@ class TestCompany(TestBase):
     def test_delete_company(self):
         """Test that one can delete a selected company.
         """
-        response = self.app.delete("/api/v1/company/TENDER105", headers=self.get_token)
+        response = self.app.delete(path + "/api/v1/company/TENDER105", headers=TestBase.get_token(self))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         output = json.loads(response.data.decode('utf-8'))
         self.assertEqual(output, {"message": "You have successfully "

@@ -9,8 +9,9 @@ from run import app
 from unittest import TestCase
 
 
+path = "http://127.0.0.1:5000"
 
-
+app.config.from_object(app_config["testing"])
 
 
 class TestBase(TestCase):
@@ -20,8 +21,8 @@ class TestBase(TestCase):
     def create_app(self):
         """Create Flask app
         """
-        # app.config.from_object(app_config["testing"])
-        app = create_app(os.getenv('ENVIRONMENT'))
+
+        # app = create_app(os.getenv('ENVIRONMENT'))
         return app
 
     def get_token(self):
@@ -29,21 +30,22 @@ class TestBase(TestCase):
         """
         self.user = {"username": "testuser",
                      "password": "testpassword"}
-        response = self.app.post("/api/v1/auth/login", data=self.user)
+        response = self.app.post(path + "/api/v1/auth/login", data=self.user)
         output = json.loads(response.data.decode('utf-8'))
-        token = output["token"].encode()
+        token = output["token"]
         return {"Authorization": token}
+
 
 
     def setUp(self):
         """Set up test client and populate test database with test data
         """
-        self.app = app.test_client()
+        # app = create_app()
         with app.app_context():
-            app = create_app()
-            # self.app_context = app.app_context()
+            self.app = app.test_client()
+            self.app_context = app.app_context()
             db.create_all()
-            db.init_app(app)
+            # db.init_app(app)
 
             user = User(username="testuser", password="testpassword")
             tender = Tender(tenderNumber="TENDER124",
@@ -77,8 +79,8 @@ class TestBase(TestCase):
         """Destroy test database
         """
         db.session.remove()
+        # self.app_context.pop()
         db.drop_all()
-        db.session.commit()
 
 
 
