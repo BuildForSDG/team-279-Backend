@@ -21,3 +21,10 @@ script:
 
 after_success:
   - coveralls
+
+deploy:
+  skip_cleanup: true
+  provider: heroku
+  app: vtender
+  strategy: git
+  api_key: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1OTE2OTE5NTEsImlhdCI6MTU5MTUxMTk1MSwic3ViIjoyfQ.7E64mm8rGLwWMXQouubzxX2k2aiWa3ZcA9w8F7fGVLo"
