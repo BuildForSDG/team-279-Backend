@@ -4,7 +4,7 @@
 [![Codacy Badge](https://img.shields.io/badge/Code%20Quality-D-red)](https://img.shields.io/badge/Code%20Quality-D-red)
 [![Code Health](https://landscape.io/github/BuildForSDG/team-279-Backend/master/landscape.svg?style=flat)](https://landscape.io/github/BuildForSDG/team-279-Backend)
 [![Build Status](https://travis-ci.org/BuildForSDG/team-279-Backend.svg?branch=develop)](https://travis-ci.org/github/BuildForSDG/team-279-Backend)
-[![Coverage Status](https://coveralls.io/repos/github/BuildForSDG/team-279-Backend/badge.svg?branch=develop)](https://coveralls.io/github/BuildForSDG/team-279-Backend?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/BuildForSDG/team-279-Backend/badge.svg)](https://coveralls.io/github/BuildForSDG/team-279-Backend)
 
 
 ## About
@@ -154,38 +154,28 @@ Initialize, migrate, and upgrade the database:
 
    python manage.py db migrate
 
- "companyName": "",
-    "companyRegistrationNo": "",
-    "directors": "",
-    "cellNumber": "",
-    "companyAddress": "",
-    "tenderStatus": "open",
-    "awardedPoint": "",
-    "apply_count": "1",
-    "global_apply_count": "1",
-    "global_winning_count": "1",
-    "winning_count": "0",
-    "global_winning_count": "0",
-    "companyObj_id": "1"
-
    python manage.py db upgrade
    ```
 
 ## Launching the Program
 
-Run ```python __main__.py```. You may use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Google Chrome to run the API.
+Run ```FLASK_ENV=development flask run```. You may use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Google Chrome to run the API.
 
 ## API Endpoints
 
-| Resource URL                  | Methods          | Description                            | Requires Token |
-| ----------------------------- | ---------------- | -------------------------------------- |--------------- |
-| `/api/v1`                     | GET              | The index                              | FALSE          |
-| `/api/v1/auth/register`       | POST             | User registration                      | FALSE          |
-|  `/api/v1/auth/login`         | POST             | User login                             | FALSE          |
-| `/api/v1/tenders`             | GET, POST        | View all tenders, add a tender         | TRUE           |
-| `/api/v1/tenders/<string:id>` | GET, PUT, DELETE | View, edit, and delete a single tender | TRUE           |
+| Resource URL                            | Methods                 | Description                            | Requires Token |
+| --------------------------------------- | ----------------------- | -------------------------------------- |--------------- |
+| `/api/v1`                               | GET                     | The index                              | FALSE          |
+| `/api/v1/auth/register`                 | POST                    | User registration                      | FALSE          |
+|  `/api/v1/auth/login`                   | POST                    | User login                             | FALSE          |
+| `/api/v1/tenders`                       | GET, POST               | View all tenders, add a tender         | TRUE           |
+| `/api/v1/tenders/<string:tender_id>`    | GET, PUT, DELETE        | View, edit, and delete a single tender | TRUE           |
+| `/api/v1/company`                       | GET, POST               | View all tenders, add a company        | TRUE           |
+| `/api/v1/company/<string:company_id>`   | GET, PUT, DELETE        | View, edit, and delete a single company| TRUE           |
+| `/api/v1/tenders/all_tenders_object`    | GET                     | View                                   | TRUE           |
+| `/api/v1/display_tender/<tenderNumber>` | GET                     | View                                   | TRUE           |
 
-## Sample Tender API Requests
+## Tender API Requests
 
 Registering and logging in to get a JWT token:
 
@@ -196,6 +186,10 @@ Registering and logging in to get a JWT token:
 Updating a tender:
 
 -   ![Updating Tender]()
+
+Updating a company:
+
+-   ![Updating Company]()
 
 ## Built With
 

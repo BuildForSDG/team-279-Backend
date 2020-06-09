@@ -2,15 +2,22 @@
   <dictionary name="boratonaj">
     <words>
       <w>asdict</w>
+      <w>aution</w>
+      <w>bellair</w>
       <w>boraton</w>
       <w>buildfor</w>
       <w>codacy</w>
+      <w>companyapi</w>
       <w>companyapp</w>
+      <w>companylistapi</w>
       <w>covid</w>
       <w>dashbaord</w>
       <w>dependecy</w>
       <w>deplyed</w>
+      <w>endblock</w>
+      <w>fndh</w>
       <w>gunicorn</w>
+      <w>nhhchzgsfozdbd</w>
       <w>offical</w>
       <w>olabode</w>
       <w>opensource</w>
@@ -24,9 +31,15 @@
       <w>sqlachelmydb</w>
       <w>sqlalchemy</w>
       <w>tablename</w>
+      <w>tenderapi</w>
       <w>tenderapp</w>
+      <w>tenderlistapi</w>
+      <w>testdb</w>
+      <w>testpassword</w>
+      <w>testuser</w>
       <w>tful</w>
       <w>ttls</w>
+      <w>vtender</w>
     </words>
   </dictionary>
 </component>
