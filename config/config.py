@@ -10,8 +10,6 @@ class Config(object):
     pydocstyle - -ignore = D101, D213
     """
 
-    DEBUG = True
-    TESTING = False
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
 
     if os.getenv("ENVIRONMENT") == "development":
@@ -36,7 +34,7 @@ class ProductionConfig(Config):
     pydocstyle - -ignore = D101, D213
     """
 
-    DEBUG = True
+    DEBUG = False
     TESTING = False
 
 
@@ -46,7 +44,7 @@ class TestingConfig(Config):
     """
 
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.getenv("TEST_DATABASE_URI")
+    SQLALCHEMY_DATABASE_URI = os.getenv("TEST_DATABASE_URI") or 'sqlite:///' + os.path.join(basedir, 'testdb.sqlite')
     PRESERVE_CONTEXT_ON_EXCEPTION = False
 
 
