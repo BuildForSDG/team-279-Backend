@@ -1,0 +1,487 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="wrapper">
+    <div class="sidebar" data-color="main" data-image="{{ url_for('static', filename='img/sidebar.jpg') }}">
+        <div class="logo">
+          <img alt="aution" class="dashboard-logo" src="{{ url_for('static', filename='img/auction-hammer-icon.png') }}">
+        </div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+              <li class="active" id="menu-dashboard">
+                <a style="cursor:pointer">
+                    <i class="material-icons">dashboard</i>
+                    <p>Dashboard</p>
+                </a>
+              </li>
+              <li id="menu-tenders">
+                  <a style="cursor:pointer">
+                      <i class="material-icons">tender</i>
+                      <p>Tenders</p>
+                  </a>
+              </li>
+              <li id="menu-company">
+                  <a style="cursor:pointer">
+                      <i class="material-icons">company</i>
+                      <p>Company</p>
+                  </a>
+              </li>
+              <li id="menu-logout">
+                  <a href="{{ url_for('logout') }}">
+                      <i class="material-icons">exit_to_app</i>
+                      <p>Log Out</p>
+                  </a>
+              </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="navbar navbar-transparent navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <ul class="nav navbar-nav navbar-left">
+                      <li class="open">
+                          <a id="toggle-sidebar" href="#pablo" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                              <i class="material-icons">menu</i>
+                              <p class="hidden-lg hidden-md">Toggle Sidebar</p>
+                          <div class="ripple-container"></div></a>
+                      </li>
+                      <a class="navbar-brand">Tender App Dashboard</a>
+                    </ul>
+                </div>
+                <br>
+            </div>
+        </nav>
+        <div class="content">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  {% if category == 'error' %}
+                    <div class="alert alert-danger alert-with-icon" data-notify="container">
+                  {% elif category == 'success' %}
+                    <div class="alert alert-success alert-with-icon" data-notify="container">
+                  {% else %}
+                    <div class="alert alert-info alert-with-icon" data-notify="container">
+                  {% endif %}
+                    <button type="button" aria-hidden="true" class="close" onclick="$('.alert').hide();">×</button>
+                    <i data-notify="icon" class="material-icons">add_alert</i>
+                    <span data-notify="message">
+                      <b> {{ message }} </b>
+                    </span>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            <div class="container-fluid">
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card card-stats">
+                            <div class="card-header" data-background-color="orange">
+                                <i class="material-icons">group</i>
+                            </div>
+                            <div class="card-content">
+                                <p class="category">Tenders</p>
+                                <h3 class="title">{{ tenders|count }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card card-stats">
+                            <div class="card-header" data-background-color="purple">
+                                <i class="material-icons">company</i>
+                            </div>
+                            <div class="card-content">
+                                <p class="category">Companies</p>
+                                <h3 class="title">{{ companies|count }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <img id="dashboard-wallpaper" src="{{ url_for('static', filename='img/wallpaper.jpg') }}" width="100%">
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card data-tables" id="tenders-card">
+                            <div class="card-header" data-background-color="main">
+                                <h4 class="title">Tenders</h4>
+                            </div>
+                            <div class="card-content table-responsive">
+                              {% if students %}
+                                <table class="table table-hover">
+                                    <thead class="text-success">
+                                      <th>Tender Number</th>
+                                      <th>Tender Description</th>
+                                      <th>Category</th>
+                                      <th>Date Published</th>
+                                      <th>Closing Date</th>
+                                      <th>tenderStatus</th>
+                                      <th>Name Of Institution</th>
+                                      <th>Offical Location</th>
+                                      <th>Institution Contact Person</th>
+                                      <th>Institution Person Email</th>
+                                      <th>Institution Person Phone</th>
+                                      <th>Edit</th>
+                                      <th>Delete</th>
+                                    </thead>
+                                    <tbody>
+                                      {% for tender in tenders %}
+                                        <tr>
+                                            <td>{{ tender.tenderNumber }}</td>
+                                            <td>{{ tender.tenderDescription }}</td>
+                                            <td>{{ tender.category }}</td>
+                                            <td>{{ tender.datePublished }}</td>
+                                            <td>{{ tender.closingDate }}</td>
+                                            <td>{{ tender.tenderStatus }}</td>
+                                            <td>{{ tender.nameOfInstitution }}</td>
+                                            <td>{{ tender.officalLocation }}</td>
+                                            <td>{{ tender.InstitutionContactPerson }}</td>
+                                            <td>{{ tender.InstitutionPersonEmail }}</td>
+                                            <td>{{ tender.InstitutionPersonPhone }}</td>
+
+                                            <td>
+                                                <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs" data-toggle="modal" data-target="#edit-tender-{{ tender.tender_id }}-modal">
+                                                  <i class="material-icons" style="color: purple;">edit</i>
+                                                </button>
+                                                <div class="modal fade" id="edit-tender-{{ tender.tender_id }}-modal" role="dialog">
+                                                  <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Edit Tender</h4>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        <form class="login-form" action="{{ url_for('edit_tender', tender_id=tender.tender_id) }}" method="post" style="padding-right: 30px !important; padding-left: 30px !important;">
+                                                          <div class="row">
+                                                            <div class="col-md-3">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Tender Number</label>
+                                                                <input type="text" name="tenderNumber" class="form-control" value="{{ tender.tenderNumber }}" required>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Tender Description</label>
+                                                                <input type="text" name="tenderDescription" class="form-control" value="{{ tender.tenderDescription }}" required>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Tender category</label>
+                                                                <input type="text" name="category" class="form-control" value="{{ tender.category }}" required>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Date Published</label>
+                                                                <input type="date" name="datePublished" class="form-control" value="{{ tender.datePublished }}" required>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Closing Date</label>
+                                                                  <input type="date" name="closingDate" class="form-control" value="{{ tender.closingDate }}">
+                                                              </div>
+                                                            </div>
+                                                           <div class="col-md-3">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Tender Status</label>
+                                                                <input type="text" name="tenderStatus" class="form-control" value="{{ tender.tenderStatus }}" required>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Name Of Institution</label>
+                                                                <input type="text" name="nameOfInstitution" class="form-control" value="{{ tender.nameOfInstitution }}" required>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Offical Location</label>
+                                                                <input type="text" name="officalLocation" class="form-control" value="{{ tender.officalLocation }}" required>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Institution Contact Person</label>
+                                                                <input type="text" name="InstitutionContactPerson" class="form-control" value="{{ tender.InstitutionContactPerson }}" required>
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Institution Person Email</label>
+                                                                  <input type="email" name="InstitutionPersonEmail" class="form-control" value="{{ tender.InstitutionPersonEmail }}">
+                                                              </div>
+                                                            </div>
+                                                           <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Institution Person Phone</label>
+                                                                  <input type="number" name="InstitutionPersonPhone" class="form-control" value="{{ tender.InstitutionPersonPhone }}">
+                                                              </div>
+                                                            </div>
+
+                                                          </div>
+                                                          <button type="submit" class="btn btn-login float-right" data-background-color="main">Edit Tender</button>
+                                                        </form>
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" data-background-color="red">Close</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs">
+                                                  <a href="{{ url_for('delete_tender', tender_id=tender.tender_id) }}">
+                                                    <i class="material-icons" style="color: red;">delete_forever</i>
+                                                  </a>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
+                              {% else %}
+                                <p> There are currently no tenders in the database. </p>
+                              {% endif %}
+                              <button class="btn" style="background-color: #ff9800;" data-toggle="modal" data-target="#add-tender-modal"><i class="material-icons">add_box</i> Add Tender</button>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="add-tender-modal" role="dialog">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Add Tender</h4>
+                              </div>
+                              <div class="modal-body">
+                                <form class="login-form" action="{{ url_for('add_tender') }}" method="post" style="padding-right: 30px !important; padding-left: 30px !important;">
+                                  <div class="row">
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Tender Number</label>
+                                        <input type="text" name="tenderNumber" class="form-control" value="{{ request.form.tenderNumber }}" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Tender Description</label>
+                                        <input type="text" name="tenderDescription" class="form-control" value="{{ request.form.tenderDescription }}" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Tender category</label>
+                                        <input type="text" name="category" class="form-control" value="{{ request.form.category }}" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Date Published</label>
+                                        <input type="date" name="datePublished" class="form-control" value="{{ request.form.datePublished }}" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Closing Date</label>
+                                          <input type="date" name="closingDate" class="form-control" value="{{ request.form.closingDate }}">
+                                      </div>
+                                    </div>
+                                   <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Tender Status</label>
+                                        <input type="text" name="tenderStatus" class="form-control" value="{{ request.form.tenderStatus }}" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Name Of Institution</label>
+                                        <input type="text" name="nameOfInstitution" class="form-control" value="{{ request.form.nameOfInstitution }}" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Offical Location</label>
+                                        <input type="text" name="officalLocation" class="form-control" value="{{ request.form.officalLocation }}" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Institution Contact Person</label>
+                                        <input type="text" name="InstitutionContactPerson" class="form-control" value="{{ request.form.InstitutionContactPerson }}" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Institution Person Email</label>
+                                          <input type="email" name="InstitutionPersonEmail" class="form-control" value="{{ request.form.InstitutionPersonEmail }}">
+                                      </div>
+                                    </div>
+                                   <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Institution Person Phone</label>
+                                          <input type="number" name="InstitutionPersonPhone" class="form-control" value="{{ request.form.InstitutionPersonPhone }}">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <button type="submit" class="btn btn-login float-right" style="background-color:#4BD1A0;">Add Tender</button>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#ef5350;">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card data-tables" id="company-card">
+                            <div class="card-header" data-background-color="main">
+                                <h4 class="title">Companies</h4>
+                            </div>
+                            <div class="card-content table-responsive">
+                              {% if company %}
+                                <table class="table table-hover">
+                                    <thead class="text-success">
+                                      <th>Company Name</th>
+                                      <th>Directors</th>
+                                      <th>Company Registration Number</th>
+                                      <th>Company Phone Number</th>
+                                      <th>Awarded Point</th>
+                                      <th>Edit</th>
+                                      <th>Delete</th>
+                                    </thead>
+                                    <tbody>
+                                      {% for record in company %}
+                                        <tr>
+                                            <td>{{ record.companyName }}</td>
+                                            <td>{{ record.directors }}</td>
+                                            <td>{{ record.companyRegistrationNo }}</td>
+                                            <td>{{ record.company_phone_number }}</td>
+                                            <td>{{ record.awardedPoint }}</td>
+                                            <td>
+                                                <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs" data-toggle="modal" data-target="#edit-company-{{ record.company_id }}-modal">
+                                                  <i class="material-icons" style="color: purple;">edit</i>
+                                                </button>
+                                                <div class="modal fade" id="edit-company-{{ record.company_id }}-modal" role="dialog">
+                                                  <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                      <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title">Edit Company</h4>
+                                                      </div>
+                                                      <div class="modal-body">
+                                                        <form class="login-form" action="{{ url_for('edit_company', company_id=record.company_id) }}" method="post" style="padding-right: 30px !important; padding-left: 30px !important;">
+                                                          <div class="row">
+                                                            <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Company Name</label>
+                                                                <input type="text" name="companyName" class="form-control" value="{{ record.companyName }}">
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Directors</label>
+                                                                <input type="text" name="directors" class="form-control" value="{{ record.directors }}">
+                                                              </div>
+                                                            </div>
+                                                          </div>
+                                                          <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Company Registration Number</label>
+                                                                <input type="text" name="companyRegistrationNo" class="form-control" value="{{ record.companyRegistrationNo }}">
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Company Phone Number</label>
+                                                                <input type="number" name="company_phone_number" class="form-control" value="{{ record.company_phone_number }}">
+                                                              </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Awarded Point</label>
+                                                                <input type="text" name="awardedPoint" class="form-control" value="{{ record.awardedPoint }}">
+                                                              </div>
+                                                            </div>
+                                                          <button type="submit" class="btn btn-login float-right" data-background-color="main">Edit Company</button>
+                                                        </form>
+                                                      </div>
+                                                      <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" data-background-color="red">Close</button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs">
+                                                  <a href="{{ url_for('delete_company', company_id=record.company_id) }}">
+                                                    <i class="material-icons" style="color: red;">delete_forever</i>
+                                                  </a>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                </table>
+                              {% else %}
+                                <p> There are currently no company record in the database. </p>
+                              {% endif %}
+                              <button class="btn" style="background-color: #ab47bc;" data-toggle="modal" data-target="#add-company-modal"><i class="material-icons">add_box</i> Add Company</button>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="add-company-modal" role="dialog">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Add Company</h4>
+                              </div>
+                              <div class="modal-body">
+                                <form class="login-form" action="{{ url_for('add_company') }}" method="post" style="padding-right: 30px !important; padding-left: 30px !important;">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Company Name</label>
+                                        <input type="text" name="companyName" class="form-control" value="{{ request.form.companyName }}" required>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Directors</label>
+                                        <input type="text" name="directors" class="form-control" value="{{ request.form.directors }}" required>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Company Registration Number</label>
+                                        <input type="text" name="companyRegistrationNo" class="form-control" value="{{ request.form.companyRegistrationNo }}">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Company Phone Number</label>
+                                        <input type="number" name="company_phone_number" class="form-control" value="{{ request.form.company_phone_number }}">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Awarded Point</label>
+                                        <input type="text" name="awardedPoint" class="form-control" value="{{ request.form.awardedPoint }}">
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <button type="submit" class="btn btn-login float-right" style="background-color:#4BD1A0;">Add Company</button>
+                                </form>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal" style="background-color:#ef5350;">Close</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+</div>
+{% endblock %}
