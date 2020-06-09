@@ -34,7 +34,4 @@ api = Api(app=app, prefix="/api/v1")
 # init ma
 ma = Marshmallow(app)
 
-with app.app_context():
-    db.create_all()
-
 from app import views
