@@ -262,41 +262,41 @@ def delete_company(company_id):
 def get_combined_tenders():
     if request.method == 'GET':
         create_admin_user()
-        company_query = Company.query.filter()
-        company_list_dictionary = companies_schema.dump(company_query)
-        tender_client = db.session.query(Tender).filter_by()
-        tender_list_of_dict = tenders_schema.dump(tender_client)
-        for tender_dict in tender_list_of_dict:
-            for company_names_dict in company_list_dictionary:
-                for row in Tender.query.filter_by(tenderNumber=str(tender_dict['tenderNumber'])):
-                    if company_names_dict['tenderNumber'] == row.tenderNumber:
-                        row.company_names = {"apply_count": company_names_dict['apply_count'],
-                                             "awardedPoint": company_names_dict['awardedPoint'],
-                                             "companyAddress": company_names_dict['tender_id'],
-                                             "companyName": company_names_dict['companyName'],
-                                             "companyRegistrationNo": company_names_dict['tender_id'],
-                                             "company_id": company_names_dict['company_id'],
-                                             "company_phone_number": company_names_dict['company_phone_number'],
-                                             "directors": company_names_dict['directors'],
-                                             "is_winner": company_names_dict['is_winner'],
-                                             "tenderNumber": row.tenderNumber,
-                                             "tender_id": row.tender_id,
-                                             "winning_count": company_names_dict['winning_count']
-                                             }
-                        db.session.commit()
-            tender_client = db.session.query(Tender).filter()
-            tender_records = tenders_schema.dump(tender_client)
-            if tender_client:
-                response = requests.get(path + "/api/v1/combined-tenders", data=tender_records, headers=get_token())
-                output = json.loads(response.text)
-                # output = jsonify(tender_records)
-                if output.get("error"):
-                    flash(output["error"], "error")
+        # company_query = Company.query.filter()
+        # company_list_dictionary = companies_schema.dump(company_query)
+        # tender_client = db.session.query(Tender).filter_by()
+        # tender_list_of_dict = tenders_schema.dump(tender_client)
+        # for tender_dict in tender_list_of_dict:
+        #     for company_names_dict in company_list_dictionary:
+        #         for row in Tender.query.filter_by(tenderNumber=str(tender_dict['tenderNumber'])):
+        #             if company_names_dict['tenderNumber'] == row.tenderNumber:
+        #                 row.company_names = {"apply_count": company_names_dict['apply_count'],
+        #                                      "awardedPoint": company_names_dict['awardedPoint'],
+        #                                      "companyAddress": company_names_dict['tender_id'],
+        #                                      "companyName": company_names_dict['companyName'],
+        #                                      "companyRegistrationNo": company_names_dict['tender_id'],
+        #                                      "company_id": company_names_dict['company_id'],
+        #                                      "company_phone_number": company_names_dict['company_phone_number'],
+        #                                      "directors": company_names_dict['directors'],
+        #                                      "is_winner": company_names_dict['is_winner'],
+        #                                      "tenderNumber": row.tenderNumber,
+        #                                      "tender_id": row.tender_id,
+        #                                      "winning_count": company_names_dict['winning_count']
+        #                                      }
+        #                 db.session.commit()
+        tender_client = db.session.query(Tender).filter()
+        tender_records = tenders_schema.dump(tender_client)
+        if tender_client:
+            response = requests.get(path + "/api/v1/combined-tenders", data=tender_records, headers=get_token())
+            output = json.loads(response.text)
+            # output = jsonify(tender_records)
+            if output.get("error"):
+                flash(output["error"], "error")
+            else:
+                if "error" in output["message"].lower():
+                    flash(output["message"], "error")
                 else:
-                    if "error" in output["message"].lower():
-                        flash(output["message"], "error")
-                    else:
-                        flash(output["message"], "success")
+                    flash(output["message"], "success")
     else:
         flash("Specified company doesn't exit!", "error")
 
@@ -308,7 +308,6 @@ def get_combined_tenders():
 def get_combined_tender(tenderNumber):
     if request.method == 'GET':
         create_admin_user()
-
         tender_client = db.session.query(Tender).filter_by(tenderNumber=tenderNumber)
         tender_records = tenders_schema.dump(tender_client)
         if tender_client:
