@@ -15,7 +15,8 @@ class Config(object):
     if os.getenv("ENVIRONMENT") == "development":
         SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL'] or 'sqlite:///' + os.path.join(basedir, 'vtender.sqlite')
     else:
-        SQLALCHEMY_DATABASE_URI = "postgres://nhhchzgsfozdbd:5af056c668950dc85d57ee2b35ca3b27f8c16c08fafdf75307cebcadd00c2842@ec2-52-202-146-43.compute-1.amazonaws.com:5432/d1tf94oqhts4i5"
+        SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://localhost/vtender'
+        # SQLALCHEMY_DATABASE_URI = "postgres://nhhchzgsfozdbd:5af056c668950dc85d57ee2b35ca3b27f8c16c08fafdf75307cebcadd00c2842@ec2-52-202-146-43.compute-1.amazonaws.com:5432/d1tf94oqhts4i5"
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 

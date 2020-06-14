@@ -4,6 +4,18 @@ from flask_restful import Resource, marshal
 from sqlalchemy.exc import IntegrityError
 from app import app, db
 from app.models import User
+import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
+
+
+session = requests.Session()
+retry = Retry(connect=3, backoff_factor=0.5)
+adapter = HTTPAdapter(max_retries=retry)
+session.mount('http://', adapter)
+session.mount('https://', adapter)
+
+session.get(url)
 
 
 def create_or_update_resource(**kwargs):
@@ -79,7 +91,7 @@ def before_request():
     user registration, login and index.
     """
 
-    if request.endpoint in ["tenderlistapi", "tenderapi", "companylistapi", "companyapi"]:
+    if request.endpoint in ["tenderlistapi", "tenderapi", "companylistapi", "companyapi", "CombinedListAPI"]:
         token = request.headers.get("Authorization")
         if token is not None:
             token_decode_response = User.decode_auth_token(token)
@@ -105,3 +117,5 @@ class Index(Resource):
         """
 
         return {"message": "Welcome to the Tender APP API."}
+
+

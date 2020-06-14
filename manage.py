@@ -21,7 +21,7 @@ def make_shell_context():
 
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
-
+from app import views, models
 
 @manager.command
 def test():
@@ -30,6 +30,21 @@ def test():
 
     tests = unittest.TestLoader().discover('tests')
     unittest.TextTestRunner(verbosity=2).run(tests)
+
+
+@manager.command
+def list_routes():
+    import urllib
+
+    output = []
+    for rule in app.url_map.iter_rules():
+        methods = ','.join(rule.methods)
+        line = urllib.parse.unquote("{:50s} {:20s} {}".format(rule.endpoint, methods, rule))
+        output.append(line)
+
+    for line in sorted(output):
+        print(line)
+
 
 
 if __name__ == '__main__':

@@ -58,7 +58,7 @@ class CompanyListAPI(Resource):
     def post(self):
 
         parser = reqparse.RequestParser()
-        parser.add_argument("tenderNumber", required=True, help="Please enter a tender number for a company.")
+        parser.add_argument("tenderNumber", help="Please enter a tender number for a company.")
         parser.add_argument("companyName", required=True, help="Please enter a company name.")
         parser.add_argument("directors", required=True, help="Please enter a directors.")
         parser.add_argument("companyRegistrationNo", required=True, help="Please enter a company registration number.")

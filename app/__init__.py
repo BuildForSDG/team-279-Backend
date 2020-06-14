@@ -30,8 +30,14 @@ __version__ = '0.1.0'
 
 app = create_app(os.getenv('ENVIRONMENT'))
 api = Api(app=app, prefix="/api/v1")
-
+from flask.ext.heroku import Heroku
+heroku = Heroku(app)
 # init ma
 ma = Marshmallow(app)
 
 from app import views
+
+# imported each blueprint object and registered it
+# from app.views import tenders
+# app.register_blueprint(tenders)
+

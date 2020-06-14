@@ -2,14 +2,15 @@ import json
 import os
 import requests
 from app import app, db
-from flask import flash, redirect, render_template, request, url_for, jsonify
+from flask import flash, redirect, render_template, request, url_for, jsonify, Blueprint
 from flask_login import login_required, login_user, logout_user
 from app.models import Tender, TenderSchema, Company, CompanySchema, User
+
 
 if os.getenv("ENVIRONMENT") == "development":
     path = "http://127.0.0.1:5000"
 else:
-    path = "https://team-279-Backend-develop.herokuapp.com"
+    path = "https://vtender.herokuapp.com/"
 
 # init schema
 tender_schema = TenderSchema()
@@ -157,49 +158,6 @@ def edit_tender(tender_id):
     return redirect(url_for('dashboard'))
 
 
-@app.route('/api/v1/all_tenders_object', methods=['GET'])
-@login_required
-# Get All tender application products
-def get_all():
-    """
-    View all tenders
-    URL: /api/v1/all_tenders_object
-    Request methods: GET
-    """
-    if request.method == 'GET':
-        create_admin_user()
-        company_query = Company.query.filter_by()
-        company_list_dictionary = companies_schema.dump(company_query)
-        tender_client = db.session.query(Tender).filter_by()
-        tender_list_of_dict = tenders_schema.dump(tender_client)
-        for tender_dict in tender_list_of_dict:
-            for company_names_dict in company_list_dictionary:
-                for row in Tender.query.filter_by(tenderNumber=str(tender_dict['tenderNumber'])):
-                    if company_names_dict['tenderNumber'] == row.tenderNumber:
-                        row.company_names = {"apply_count": company_names_dict['apply_count'],
-                                             "awardedPoint": company_names_dict['awardedPoint'],
-                                             "companyAddress": company_names_dict['tender_id'],
-                                             "companyName": company_names_dict['companyName'],
-                                             "companyRegistrationNo": company_names_dict['tender_id'],
-                                             "company_id": company_names_dict['company_id'],
-                                             "company_phone_number": company_names_dict['company_phone_number'],
-                                             "directors": company_names_dict['directors'],
-                                             "is_winner": company_names_dict['is_winner'],
-                                             "tenderNumber": row.tenderNumber,
-                                             "tender_id": row.tender_id,
-                                             "winning_count": company_names_dict['winning_count']
-                                             }
-                        db.session.commit()
-            tender_client = db.session.query(Tender).all()
-            tender_records = tenders_schema.dump(tender_client)
-            if tender_client:
-                return jsonify(tender_records)
-            else:
-                return {"error": "A tender does not exist."}, 404
-    else:
-        return {"error": "Specified tender doesn't exit!"}, 404
-
-
 @app.route('/delete-student/<string:tender_id>', methods=['GET', 'POST'])
 @login_required
 def delete_tender(tender_id):
@@ -226,7 +184,8 @@ def delete_tender(tender_id):
 def add_company():
     if request.method == 'POST':
         create_admin_user()
-        company = {"companyName": request.form["companyName"],
+        company = {"tenderNumber": request.form["tenderNumber"],
+                   "companyName": request.form["companyName"],
                    "directors": request.form["directors"],
                    "companyRegistrationNo": request.form["companyRegistrationNo"],
                    "company_phone_number": request.form["company_phone_number"],
@@ -237,7 +196,7 @@ def add_company():
         if output.get("error"):
             flash(output["error"], "error")
         else:
-            if "error" in output["message"].lower():
+            if "error" in output["message"]:
                 flash(output["message"], "error")
             else:
                 flash(output["message"], "success")
@@ -252,7 +211,8 @@ def edit_company(company_id):
     if company:
         if request.method == 'POST':
             create_admin_user()
-            company = {"companyName": request.form["companyName"],
+            company = {"tenderNumber": request.form["companyName"],
+                       "companyName": request.form["companyName"],
                        "directors": request.form["directors"],
                        "companyRegistrationNo": request.form["companyRegistrationNo"],
                        "company_phone_number": request.form["company_phone_number"],
@@ -295,30 +255,74 @@ def delete_company(company_id):
     return redirect(url_for('dashboard'))
 
 
-@app.route('/api/v1/display_tender/<tenderNumber>', methods=['GET'])
+
+@app.route('/combined-tenders', methods=['GET'])
 @login_required
-def display_tender(tenderNumber):
+# Get All tender application products
+def get_combined_tenders():
     if request.method == 'GET':
         create_admin_user()
-        company_query = Company.query.filter_by(tenderNumber=tenderNumber)
+        company_query = Company.query.filter()
         company_list_dictionary = companies_schema.dump(company_query)
-        tender_client = db.session.query(Tender).filter_by(tenderNumber=tenderNumber)
+        tender_client = db.session.query(Tender).filter_by()
         tender_list_of_dict = tenders_schema.dump(tender_client)
         for tender_dict in tender_list_of_dict:
-            for key in list(tender_dict.keys()):
-                for company_names_dict in company_list_dictionary:
-                    if key in list(company_names_dict.keys()):
-                        if company_names_dict['tender_id'] is None:
-                            company_names_dict['tender_id'] = tender_dict['tender_id']
-                            db.session.commit()
-                            for row in Tender.query.filter_by(tenderNumber=tenderNumber):
-                                row.company_names = company_list_dictionary
-                            db.session.commit()
+            for company_names_dict in company_list_dictionary:
+                for row in Tender.query.filter_by(tenderNumber=str(tender_dict['tenderNumber'])):
+                    if company_names_dict['tenderNumber'] == row.tenderNumber:
+                        row.company_names = {"apply_count": company_names_dict['apply_count'],
+                                             "awardedPoint": company_names_dict['awardedPoint'],
+                                             "companyAddress": company_names_dict['tender_id'],
+                                             "companyName": company_names_dict['companyName'],
+                                             "companyRegistrationNo": company_names_dict['tender_id'],
+                                             "company_id": company_names_dict['company_id'],
+                                             "company_phone_number": company_names_dict['company_phone_number'],
+                                             "directors": company_names_dict['directors'],
+                                             "is_winner": company_names_dict['is_winner'],
+                                             "tenderNumber": row.tenderNumber,
+                                             "tender_id": row.tender_id,
+                                             "winning_count": company_names_dict['winning_count']
+                                             }
+                        db.session.commit()
+            tender_client = db.session.query(Tender).filter()
+            tender_records = tenders_schema.dump(tender_client)
+            if tender_client:
+                response = requests.get(path + "/api/v1/combined-tenders", data=tender_records, headers=get_token())
+                output = json.loads(response.text)
+                # output = jsonify(tender_records)
+                if output.get("error"):
+                    flash(output["error"], "error")
+                else:
+                    if "error" in output["message"].lower():
+                        flash(output["message"], "error")
+                    else:
+                        flash(output["message"], "success")
+    else:
+        flash("Specified company doesn't exit!", "error")
+
+    return redirect(url_for('dashboard'))
+
+
+@app.route('/one-tender/<string:tenderNumber>', methods=['GET'])
+@login_required
+def get_combined_tender(tenderNumber):
+    if request.method == 'GET':
+        create_admin_user()
+
         tender_client = db.session.query(Tender).filter_by(tenderNumber=tenderNumber)
         tender_records = tenders_schema.dump(tender_client)
         if tender_client:
-            return jsonify(tender_records)
-        else:
-            return {"error": "A tender with ID " + tenderNumber + " does not exist."}, 404
+            response = requests.get(path + "/api/v1/one-tender/" + tenderNumber, data=tender_records,
+                                    headers=get_token())
+            output = json.loads(response.text)
+            if output.get("error"):
+                flash(output["error"], "error")
+            else:
+                if "error" in output["message"].lower():
+                    flash(output["message"], "error")
+                else:
+                    flash(output["message"], "success")
     else:
-        return {"error": "Specified tender doesn't exit!"}, 404
+        flash("Specified company doesn't exit!", "error")
+
+    return redirect(url_for('dashboard'))
