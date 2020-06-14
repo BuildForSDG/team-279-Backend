@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.dialects import sqlite
 from app import db, app, login_manager, ma
 from marshmallow import fields
-
+from sqlalchemy.dialects.postgresql import JSON
 
 
 class User(db.Model, UserMixin):
