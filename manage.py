@@ -21,7 +21,7 @@ def make_shell_context():
 
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
-from app import views, models
+
 
 @manager.command
 def test():
