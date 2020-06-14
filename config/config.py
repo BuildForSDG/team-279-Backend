@@ -30,6 +30,14 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_ECHO = True
 
 
+class StagingConfig(Config):
+    """
+
+    """
+    DEVELOPMENT = True
+    DEBUG = True
+
+
 class ProductionConfig(Config):
     """Production configurations.
     pydocstyle - -ignore = D101, D213

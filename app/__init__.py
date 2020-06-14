@@ -15,7 +15,6 @@ login_manager = LoginManager()
 def create_app(config_env):
 
     app = Flask(__name__)
-
     app.config.from_object(app_config[config_env])
     db.init_app(app)
     login_manager.init_app(app)
@@ -30,8 +29,8 @@ __version__ = '0.1.0'
 
 app = create_app(os.getenv('ENVIRONMENT'))
 api = Api(app=app, prefix="/api/v1")
-from flask.ext.heroku import Heroku
-heroku = Heroku(app)
+# from flask.ext.heroku import Heroku
+# heroku = Heroku(app)
 # init ma
 ma = Marshmallow(app)
 
