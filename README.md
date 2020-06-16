@@ -169,11 +169,11 @@ Run ```FLASK_ENV=development flask run```. You may use [Postman](https://chrome.
 | `/api/v1/auth/register`                     | POST                    | User registration                      | FALSE          |
 |  `/api/v1/auth/login`                       | POST                    | User login                             | FALSE          |
 | `/api/v1/tenders`                           | GET, POST               | View all tenders, add a tender         | TRUE           |
-| `/api/v1/tenders/<string:tenderID>`        | GET, PUT, DELETE        | View, edit, and delete a single tender | TRUE           |
+| `/api/v1/tenders/<string:tenderID>`         | GET, PUT, DELETE        | View, edit, and delete a single tender | TRUE           |
 | `/api/v1/company`                           | GET, POST               | View all tenders, add a company        | TRUE           |
-| `/api/v1/company/<string:companyID>`       | GET, PUT, DELETE        | View, edit, and delete a single company| TRUE           |
-| `/api/v1/tenders/combined-tenders`          | GET                     | View                                   | TRUE           |
-| `/api/v1//one-tender/<string:tenderNumber>` | GET                     | View                                   | TRUE           |
+| `/api/v1/company/<string:companyID>`        | GET, PUT, DELETE        | View, edit, and delete a single company| TRUE           |
+| `/api/v1/combined-tenders`                  | GET                     | View                                   | TRUE           |
+| `/api/v1/one-tender/<string:tenderNumber>`  | GET                     | View                                   | TRUE           |
 
 ## Tender API Requests
 
@@ -183,13 +183,15 @@ Registering and logging in to get a JWT token:
 
 -   ![User Login]()
 
-Updating a tender:
+Update a tender:
 
 -   ![Updating Tender]()
 
-Updating a company:
+Update a company:
 
 -   ![Updating Company]()
+
+To test the API
 
 ## Built With
 

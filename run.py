@@ -10,11 +10,11 @@ api.add_resource(Index, "")
 api.add_resource(UserRegister, "/auth/register")
 api.add_resource(UserLogin, "/auth/login")
 api.add_resource(TenderListAPI, "/tenders")
-api.add_resource(TenderAPI, "/tenders/<string:tender_id>")
+api.add_resource(TenderAPI, "/tender/<string:tenderID>")
 api.add_resource(CombinedAPI, "/one-tender/<string:tenderNumber>")
 api.add_resource(CombinedListAPI, "/combined-tenders")
 api.add_resource(CompanyListAPI, "/company")
-api.add_resource(CompanyAPI, "/company/<string:company_id>")
+api.add_resource(CompanyAPI, "/company/<string:companyID>")
 
 
 

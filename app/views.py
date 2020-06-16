@@ -94,7 +94,7 @@ def dashboard():
     return render_template('dashboard.html', title='Dashboard', tenders=tenders, company=company)
 
 
-@app.route('/api/v1/add-tenders', methods=['GET', 'POST'])
+@app.route('/api/v1/add-tender', methods=['GET', 'POST'])
 @login_required
 def add_tender():
     if request.method == 'POST':
@@ -111,7 +111,7 @@ def add_tender():
                   "InstitutionPersonEmail": request.form["InstitutionPersonEmail"],
                   "InstitutionPersonPhone": request.form["InstitutionPersonPhone"]
                   }
-        response = requests.post(path + "/api/v1/add-tenders", data=tender, headers=get_token())
+        response = requests.post(path + "/api/v1/tenders", data=tender, headers=get_token())
         output = json.loads(response.text)
         if output.get("error"):
             flash(output["error"], "error")
@@ -124,12 +124,12 @@ def add_tender():
         return redirect(url_for('dashboard'))
 
 
-@app.route('/api/v1/edit-tender/<string:tenderID>', methods=['GET', 'POST'])
+@app.route('/api/v1/edit-tender/<string:tenderID>', methods=['PUT'])
 @login_required
 def edit_tender(tenderID):
     tender = Tender.query.filter_by(tenderID=tenderID).first()
     if tender:
-        if request.method == 'POST':
+        if request.method == 'PUT':
             create_admin_user()
             tender = {"tenderNumber": request.form["tenderNumber"],
                       "tenderDescription": request.form["tenderDescription"],
@@ -143,7 +143,7 @@ def edit_tender(tenderID):
                       "InstitutionPersonEmail": request.form["InstitutionPersonEmail"],
                       "InstitutionPersonPhone": request.form["InstitutionPersonPhone"]
                       }
-            response = requests.put(path + "/api/v1/edit-tender/" + tenderID, data=tender, headers=get_token())
+            response = requests.put(path + "/api/v1/tender/" + tenderID, data=tender, headers=get_token())
             output = json.loads(response.text)
             if output.get("error"):
                 flash(output["error"], "error")
@@ -164,7 +164,7 @@ def delete_tender(tenderID):
     tender = Tender.query.filter_by(tenderID=tenderID).first()
     if tender:
         create_admin_user()
-        response = requests.delete(path + "/api/v1/delete-tender/" + tenderID, headers=get_token())
+        response = requests.delete(path + "/api/v1/tender/" + tenderID, headers=get_token())
         output = json.loads(response.text)
         if output.get("error"):
             flash(output["error"], "error")
@@ -179,7 +179,7 @@ def delete_tender(tenderID):
     return redirect(url_for('dashboard'))
 
 
-@app.route('/api/v1/add-company', methods=['GET', 'POST'])
+@app.route('/api/v1/add_company', methods=['GET', 'POST'])
 @login_required
 def add_company():
     if request.method == 'POST':
@@ -192,7 +192,7 @@ def add_company():
                    "companyAddress": request.form["companyAddress"],
                    "awardedPoint": request.form["awardedPoint"],
                    "isWinner": request.form["isWinner"]}
-        response = requests.post(path + "/api/v1/add-company", data=company, headers=get_token())
+        response = requests.post(path + "/api/v1/company", data=company, headers=get_token())
         output = json.loads(response.text)
         if output.get("error"):
             flash(output["error"], "error")
@@ -205,7 +205,7 @@ def add_company():
         return redirect(url_for('dashboard'))
 
 
-@app.route('/api/v1/edit-company/<string:companyID>', methods=['GET', 'POST'])
+@app.route('/api/v1/edit_company/<string:companyID>', methods=['GET', 'POST'])
 @login_required
 def edit_company(companyID):
     company = Company.query.filter_by(companyID=companyID).first()
@@ -221,7 +221,7 @@ def edit_company(companyID):
                        "awardedPoint": request.form["awardedPoint"],
                        "isWinner": request.form["isWinner"]
                        }
-            response = requests.put(path + "/api/v1/edit-company/" + companyID, data=company, headers=get_token())
+            response = requests.put(path + "/api/v1/company/" + companyID, data=company, headers=get_token())
             output = json.loads(response.text)
             if output.get("error"):
                 flash(output["error"], "error")
@@ -236,13 +236,13 @@ def edit_company(companyID):
     return redirect(url_for('dashboard'))
 
 
-@app.route('/api/v1/delete-company/<string:companyID>', methods=['GET', 'POST'])
+@app.route('/api/v1/delete_company/<string:companyID>', methods=['GET', 'POST'])
 @login_required
 def delete_company(companyID):
     company = Company.query.filter_by(companyID=companyID).first()
     if company:
         create_admin_user()
-        response = requests.delete(path + "/api/v1/delete-company/" + companyID, headers=get_token())
+        response = requests.delete(path + "/api/v1/company/" + companyID, headers=get_token())
         output = json.loads(response.text)
         if output.get("error"):
             flash(output["error"], "error")
@@ -258,7 +258,7 @@ def delete_company(companyID):
 
 
 
-@app.route('/api/v1/combined-tenders', methods=['GET'])
+@app.route('/api/v1/get_combined_tenders', methods=['GET'])
 @login_required
 # Get All tender application products
 def get_combined_tenders():
@@ -282,7 +282,7 @@ def get_combined_tenders():
     return redirect(url_for('dashboard'))
 
 
-@app.route('/api/v1/one-tender/<string:tenderNumber>', methods=['GET'])
+@app.route('/api/v1/get_combined_tender/<string:tenderNumber>', methods=['GET'])
 # @login_required
 def get_combined_tender(tenderNumber):
     if request.method == 'GET':
