@@ -4,6 +4,8 @@ from app import db
 from app.resources import create_or_update_resource, delete_resource
 from app.models import Tender, TenderSchema, CompanySchema, Company
 from app.serializers import tender_serializer
+from sqlalchemy.event import listen
+from sqlalchemy import event, DDL
 
 # init schema
 tender_schema = TenderSchema()
@@ -12,13 +14,23 @@ tenders_schema = TenderSchema(many=True)
 company_schema = CompanySchema()
 companies_schema = CompanySchema(many=True)
 
+# https://dzone.com/articles/how-to-initialize-database-with-default-values-in
+
+
+@event.listens_for(Company.__table__, 'after_create')
+def insert_initial_values(*args, **kwargs):
+    db.session.add(Company(isWinner='notWinner'))
+    db.session.commit()
+
+
+event.listen(Company.__table__, 'after_create', insert_initial_values)
+
 
 class TenderListAPI(Resource):
     """View all tenders; add new tender
     URL: /api/v1/tenders
     Request methods: POST, GET
     """
-
 
     def get(self):
 
@@ -33,12 +45,12 @@ class TenderListAPI(Resource):
         has_previous = tenders.has_prev
         if has_next:
             next_page = str(request.url_root) + "api/v1.0/tenders?" + \
-                "limit=" + str(limit) + "&page=" + str(page + 1)
+                        "limit=" + str(limit) + "&page=" + str(page + 1)
         else:
             next_page = "None"
         if has_previous:
             previous_page = request.url_root + "api/v1.0/tenders?" + \
-                "limit=" + str(limit) + "&page=" + str(page - 1)
+                            "limit=" + str(limit) + "&page=" + str(page - 1)
         else:
             previous_page = "None"
         tenders = tenders.items
@@ -55,15 +67,14 @@ class TenderListAPI(Resource):
         else:
             return {"error": "There are no registered tenders. Add a new one and try again!"}, 404
 
-
     def post(self):
         """
 
         :return:
         """
         parser = reqparse.RequestParser()
-        parser.add_argument("tenderNumber", required=True,help="Please enter a tender number.")
-        parser.add_argument("tenderDescription", required=True,help="Please enter a tender description.")
+        parser.add_argument("tenderNumber", required=True, help="Please enter a tender number.")
+        parser.add_argument("tenderDescription", required=True, help="Please enter a tender description.")
         parser.add_argument("category", required=True, help="Please enter an tender category.")
         parser.add_argument("datePublished", help="Please enter tender date publish date.")
         parser.add_argument("closingDate", help="Please enter tender closing date.")
@@ -72,7 +83,8 @@ class TenderListAPI(Resource):
         parser.add_argument("officalLocation", required=True, help="Please enter an tender offical location.")
         parser.add_argument("InstitutionContactPerson", help="Please enter tender institution contact person.")
         parser.add_argument("InstitutionPersonEmail", help="Please enter tender institution person email.")
-        parser.add_argument("InstitutionPersonPhone", required=True, help="Please enter a tender institution person phone.")
+        parser.add_argument("InstitutionPersonPhone", required=True,
+                            help="Please enter a tender institution person phone.")
 
         args = parser.parse_args()
         tenderNumber = args["tenderNumber"]
@@ -98,28 +110,27 @@ class TenderListAPI(Resource):
                         InstitutionContactPerson=InstitutionContactPerson,
                         InstitutionPersonEmail=InstitutionPersonEmail,
                         InstitutionPersonPhone=InstitutionPersonPhone)
-        return create_or_update_resource(resource=tender, resource_type="tender", serializer=tender_serializer, create=True)
+        return create_or_update_resource(resource=tender, resource_type="tender", serializer=tender_serializer,
+                                         create=True)
 
 
 class TenderAPI(Resource):
     """View, update and delete a single tender.
-    URL: /api/v1/tenders/<tender_id>
+    URL: /api/v1/tenders/<tenderID>
     Request methods: GET, PUT, DELETE
     """
 
-    def get(self, tender_id):
+    def get(self, tenderID):
 
-        tender = Tender.query.filter_by(tender_id=tender_id).first()
+        tender = Tender.query.filter_by(tenderID=tenderID).first()
         if tender:
             return marshal(tender, tender_serializer)
         else:
-            return {"error": "A tender with tender ID " + tender_id + " does "
-                             "not exist."}, 404
+            return {"error": "A tender with tender ID " + tenderID + " does " "not exist."}, 404
 
+    def put(self, tenderID):
 
-    def put(self, tender_id):
-
-        tender = Tender.query.filter_by(tender_id=tender_id).first()
+        tender = Tender.query.filter_by(tenderID=tenderID).first()
         if tender:
             parser = reqparse.RequestParser()
             parser.add_argument("tenderNumber")
@@ -141,26 +152,18 @@ class TenderAPI(Resource):
                     updated_field = args[field]
                     setattr(tender, field, updated_field)
         else:
-            return {"error": "A tender with ID " + tender_id + " does "
-                             "not exist."}, 404
+            return {"error": "A tender with ID " + tenderID + " does " "not exist."}, 404
 
-        return create_or_update_resource(
-            resource=tender,
-            resource_type="tender",
-            serializer=tender_serializer,
+        return create_or_update_resource(resource=tender, resource_type="tender", serializer=tender_serializer,
             create=False)
 
+    def delete(self, tenderID):
 
-    def delete(self, tender_id):
-
-        tender = Tender.query.filter_by(tender_id=tender_id).first()
+        tender = Tender.query.filter_by(tenderID=tenderID).first()
         if tender:
-            return delete_resource(resource=tender,
-                                   resource_type="tender",
-                                   id=tender_id)
+            return delete_resource(resource=tender, resource_type="tender", id=tenderID)
         else:
-            return {"error": "A tender with ID " + tender_id + " does "
-                             "not exist."}, 404
+            return {"error": "A tender with ID " + tenderID + " does " "not exist."}, 404
 
 
 class CombinedListAPI(Resource):
@@ -183,18 +186,18 @@ class CombinedListAPI(Resource):
             for company_names_dict in company_list_dictionary:
                 for row in Tender.query.filter_by(tenderNumber=str(tender_dict['tenderNumber'])):
                     if company_names_dict['tenderNumber'] == row.tenderNumber:
-                        row.company_names = {"apply_count": company_names_dict['apply_count'],
+                        row.companyNames = {"applyCount": company_names_dict['applyCount'],
                                              "awardedPoint": company_names_dict['awardedPoint'],
-                                             "companyAddress": company_names_dict['tender_id'],
+                                             "companyAddress": company_names_dict['tenderID'],
                                              "companyName": company_names_dict['companyName'],
-                                             "companyRegistrationNo": company_names_dict['tender_id'],
-                                             "company_id": company_names_dict['company_id'],
-                                             "company_phone_number": company_names_dict['company_phone_number'],
+                                             "companyRegistrationNo": company_names_dict['tenderID'],
+                                             "companyID": company_names_dict['companyID'],
+                                             "companyPhoneNumber": company_names_dict['companyPhoneNumber'],
                                              "directors": company_names_dict['directors'],
-                                             "is_winner": company_names_dict['is_winner'],
+                                             "isWinner": company_names_dict['isWinner'],
                                              "tenderNumber": row.tenderNumber,
-                                             "tender_id": row.tender_id,
-                                             "winning_count": company_names_dict['winning_count']
+                                             "tenderID": row.tenderID,
+                                             "winningCount": company_names_dict['winningCount']
                                              }
                         db.session.commit()
         tender_client = db.session.query(Tender).all()
@@ -202,7 +205,7 @@ class CombinedListAPI(Resource):
         if tender_records:
             return marshal(tender_records, tender_serializer)
         else:
-            return {"error": "A tender with tender ID " + tender_id + " does not exist."}, 404
+            return {"error": "A tender with tender ID " + tenderID + " does not exist."}, 404
 
 
 class CombinedAPI(Resource):
@@ -225,11 +228,11 @@ class CombinedAPI(Resource):
             for key in list(tender_dict.keys()):
                 for company_names_dict in company_list_dictionary:
                     if key in list(company_names_dict.keys()):
-                        if company_names_dict['tender_id'] is None:
-                            company_names_dict['tender_id'] = tender_dict['tender_id']
+                        if company_names_dict['tenderID'] is None:
+                            company_names_dict['tenderID'] = tender_dict['tenderID']
                             db.session.commit()
                             for row in Tender.query.filter_by(tenderNumber=tenderNumber):
-                                row.company_names = company_list_dictionary
+                                row.companyNames = company_list_dictionary
                             db.session.commit()
         tender_client = db.session.query(Tender).filter_by(tenderNumber=tenderNumber)
         tender_records = tenders_schema.dump(tender_client)
@@ -237,7 +240,7 @@ class CombinedAPI(Resource):
         if tender_records:
             return marshal(tender_records, tender_serializer)
         else:
-            return {"error": "A tender with tender ID " + tender_id + " does not exist."}, 404
+            return {"error": "A tender with tender ID " + tenderID + " does not exist."}, 404
         #
         # if tender_client:
         #     return jsonify(tender_records)

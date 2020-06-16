@@ -112,7 +112,7 @@ def load_user(user_id):
 class Tender(db.Model):
     __tablename__ = 'tenders'
 
-    tender_id = db.Column(db.Integer, primary_key=True, nullable=False)
+    tenderID = db.Column(db.Integer, primary_key=True, nullable=False)
     tenderNumber = db.Column(db.String(25), nullable=False, unique=True)
     tenderDescription = db.Column(db.String(80), nullable=False)
     category = db.Column(db.String(40), nullable=False)
@@ -124,9 +124,9 @@ class Tender(db.Model):
     InstitutionContactPerson = db.Column(db.String(60), nullable=False)
     InstitutionPersonEmail = db.Column(db.String(60), nullable=False)
     InstitutionPersonPhone = db.Column(db.String(60), nullable=False)
-    company_names = db.Column(sqlite.JSON, server_default='{}')
+    companyNames = db.Column(sqlite.JSON, server_default='{}')
     company = db.relationship('Company', backref="tenders", cascade='all, delete, delete-orphan', single_parent=True,
-                              order_by='desc(Company.company_id)')
+                              order_by='desc(Company.companyID)')
 
     def __init__(self, tenderNumber, tenderDescription, category, datePublished, closingDate, tenderStatus,
                  nameOfInstitution, officalLocation, InstitutionContactPerson, InstitutionPersonEmail,
@@ -155,15 +155,15 @@ class Tender(db.Model):
         self.InstitutionContactPerson = InstitutionContactPerson
         self.InstitutionPersonEmail = InstitutionPersonEmail
         self.InstitutionPersonPhone = InstitutionPersonPhone
-        # self.company_names = company_names
+        # self.companyNames = companyNames
 
     def __repr__(self):
         """
-        :param: tender_id.
+        :param: tenderID.
         :return:.
         pydocstyle - -ignore = D101, D213
         """
-        return '<tender_id {}>'.format(self.tender_id)
+        return '<tenderID {}>'.format(self.tenderID)
 
     def update(self, tmp_dict):
         for key, value in tmp_dict.items():
@@ -171,15 +171,14 @@ class Tender(db.Model):
                 setattr(self, key, value)
 
 
-
 class TenderSchema(ma.Schema):
     class Meta:
         model = Tender
         sqla_session = db.session
 
-        fields = ('tender_id', 'tenderNumber', 'tenderDescription', 'category', 'datePublished', 'closingDate',
+        fields = ('tenderID', 'tenderNumber', 'tenderDescription', 'category', 'datePublished', 'closingDate',
                   'tenderStatus', 'nameOfInstitution', 'officalLocation', 'InstitutionContactPerson',
-                  'InstitutionPersonEmail', 'InstitutionPersonPhone', 'company_names')
+                  'InstitutionPersonEmail', 'InstitutionPersonPhone', 'companyNames')
 
     company = fields.Nested('TenderCompanySchema', default=[], many=True)
 
@@ -189,44 +188,43 @@ class TenderCompanySchema(ma.Schema):
     This class exists to get around a recursion issue
     """
 
-    company_id = fields.Int()
-    tender_id = fields.Int()
+    companyID = fields.Int()
+    tenderID = fields.Int()
     companyName = fields.Str()
     companyRegistrationNo = fields.Str()
     directors = fields.Str()
-    company_phone_number = fields.Int()
+    companyPhoneNumber = fields.Int()
     companyAddress = fields.Str()
-    apply_count = fields.Int()
-    winning_count = fields.Int()
+    applyCount = fields.Int()
+    winningCount = fields.Int()
     awardedPoint = fields.Int()
     tenderNumber = fields.Int()
-    is_winner = fields.Boolean()
+    isWinner = fields.Str()
 
 
 # Company Model
-
 class Company(db.Model):
     __tablename__ = "company"
 
-    company_id = db.Column(db.Integer, primary_key=True, nullable=False)
+    companyID = db.Column(db.Integer, primary_key=True, nullable=False)
     companyName = db.Column(db.String(60), nullable=False)
     companyRegistrationNo = db.Column(db.String(50), nullable=False)
     directors = db.Column(db.String(60), nullable=False)
-    company_phone_number = db.Column(db.String(15), nullable=False)
+    companyPhoneNumber = db.Column(db.String(15), nullable=False)
     companyAddress = db.Column(db.String(50), nullable=False)
-    apply_count = db.Column(db.Integer, unique=True)
-    winning_count = db.Column(db.Integer)
-    is_winner = db.Column(db.Boolean, default=False, server_default="false")
+    applyCount = db.Column(db.Integer, unique=True)
+    winningCount = db.Column(db.Integer)
+    isWinner = db.Column(db.Unicode)
     awardedPoint = db.Column(db.Integer)
     tenderNumber = db.Column(db.String(25), nullable=False)
-    tender_id = db.Column(db.Integer, db.ForeignKey("tenders.tender_id"))
+    tenderID = db.Column(db.Integer, db.ForeignKey("tenders.tenderID"))
 
-    def __init__(self, companyName, directors, companyRegistrationNo, company_phone_number,
-                 companyAddress, awardedPoint, tenderNumber):
+    def __init__(self, companyName, directors, companyRegistrationNo, companyPhoneNumber,
+                 companyAddress, awardedPoint, tenderNumber, isWinner):
         """:param companyName:
         :param directors:
         :param companyRegistrationNo:
-        :param company_phone_number:
+        :param companyPhoneNumber:
         :param companyAddress:
         :param awardedPoint:
         :param tenderNumber:
@@ -235,20 +233,22 @@ class Company(db.Model):
         self.companyName = companyName
         self.companyRegistrationNo = companyRegistrationNo
         self.directors = directors
-        self.company_phone_number = company_phone_number
+        self.companyPhoneNumber = companyPhoneNumber
         self.companyAddress = companyAddress
-        # self.apply_count = apply_count
-        # self.winningCount = winning_count
+        # self.applyCount = applyCount
+        # self.winningCount = winningCount
         self.awardedPoint = awardedPoint
         self.tenderNumber = tenderNumber
+        self.isWinner = isWinner
 
     def __repr__(self):
         """
-        :param: tender_id.
+        :param: companyID.
         :return:.
         pydocstyle - -ignore = D101, D213
         """
-        return '<tender_id {}>'.format(self.company_id)
+        return '<tenderID {}>'.format(self.companyID)
+
 
 
 class CompanySchema(ma.Schema):
@@ -256,9 +256,9 @@ class CompanySchema(ma.Schema):
         model = Company
         sqla_session = db.session
 
-        fields = ('companyName', 'directors', 'companyRegistrationNo', 'company_phone_number',
-                  'companyAddress', 'awardedPoint', 'apply_count', 'winning_count',
-                  'tender_id', 'company_id', 'tenderNumber', 'is_winner')
+        fields = ('companyName', 'directors', 'companyRegistrationNo', 'companyPhoneNumber',
+                  'companyAddress', 'awardedPoint', 'applyCount', 'winningCount',
+                  'tenderID', 'companyID', 'tenderNumber', 'isWinner')
 
     tender = fields.Nested('CompanyTenderSchema', default=None)
 
@@ -268,7 +268,7 @@ class CompanyTenderSchema(ma.Schema):
     This class exists to get around a recursion issue
     """
 
-    tender_id = fields.Int()
+    tenderID = fields.Int()
     tenderNumber = fields.Str()
     tenderDescription = fields.Str()
     category = fields.Str()
@@ -280,4 +280,4 @@ class CompanyTenderSchema(ma.Schema):
     InstitutionContactPerson = fields.Str()
     InstitutionPersonEmail = fields.Str()
     InstitutionPersonPhone = fields.Str()
-    company_names = fields.Str()
+    companyNames = fields.Str()

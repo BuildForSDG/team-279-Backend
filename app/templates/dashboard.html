@@ -137,10 +137,10 @@
                                             <td>{{ tender.InstitutionPersonPhone }}</td>
 
                                             <td>
-                                                <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs" data-toggle="modal" data-target="#edit-tender-{{ tender.tender_id }}-modal">
+                                                <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs" data-toggle="modal" data-target="#edit-tender-{{ tender.tenderID }}-modal">
                                                   <i class="material-icons" style="color: purple;">edit</i>
                                                 </button>
-                                                <div class="modal fade" id="edit-tender-{{ tender.tender_id }}-modal" role="dialog">
+                                                <div class="modal fade" id="edit-tender-{{ tender.tenderID }}-modal" role="dialog">
                                                   <div class="modal-dialog">
                                                     <div class="modal-content">
                                                       <div class="modal-header">
@@ -148,7 +148,7 @@
                                                         <h4 class="modal-title">Edit Tender</h4>
                                                       </div>
                                                       <div class="modal-body">
-                                                        <form class="login-form" action="{{ url_for('edit_tender', tender_id=tender.tender_id) }}" method="post" style="padding-right: 30px !important; padding-left: 30px !important;">
+                                                        <form class="login-form" action="{{ url_for('edit_tender', tenderID=tender.tenderID) }}" method="post" style="padding-right: 30px !important; padding-left: 30px !important;">
                                                           <div class="row">
                                                             <div class="col-md-3">
                                                               <div class="form-group">
@@ -252,7 +252,7 @@
                                             </td>
                                             <td>
                                                 <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs">
-                                                  <a href="{{ url_for('delete_tender', tender_id=tender.tender_id) }}">
+                                                  <a href="{{ url_for('delete_tender', tenderID=tender.tenderID) }}">
                                                     <i class="material-icons" style="color: red;">delete_forever</i>
                                                   </a>
                                                 </button>
@@ -393,6 +393,7 @@
                                       <th>Company Phone Number</th>
                                       <th>Company Address</th>
                                       <th>Awarded Point</th>
+                                      <th>Winner</th>
                                       <th>Edit</th>
                                       <th>Delete</th>
                                     </thead>
@@ -403,14 +404,15 @@
                                             <td>{{ record.companyName }}</td>
                                             <td>{{ record.directors }}</td>
                                             <td>{{ record.companyRegistrationNo }}</td>
-                                            <td>{{ record.company_phone_number }}</td>
+                                            <td>{{ record.companyPhoneNumber }}</td>
                                             <td>{{ record.companyAddress }}</td>
                                             <td>{{ record.awardedPoint }}</td>
+                                            <td>{{ record.isWinner }}</td>
                                             <td>
-                                                <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs" data-toggle="modal" data-target="#edit-company-{{ record.company_id }}-modal">
+                                                <button type="button" rel="tooltip" title="Edit" class="btn btn-success btn-simple btn-xs" data-toggle="modal" data-target="#edit-company-{{ record.companyID }}-modal">
                                                   <i class="material-icons" style="color: purple;">edit</i>
                                                 </button>
-                                                <div class="modal fade" id="edit-company-{{ record.company_id }}-modal" role="dialog">
+                                                <div class="modal fade" id="edit-company-{{ record.companyID }}-modal" role="dialog">
                                                   <div class="modal-dialog">
                                                     <div class="modal-content">
                                                       <div class="modal-header">
@@ -418,7 +420,7 @@
                                                         <h4 class="modal-title">Edit Company</h4>
                                                       </div>
                                                       <div class="modal-body">
-                                                        <form class="login-form" action="{{ url_for('edit_company', company_id=record.company_id) }}" method="post" style="padding-right: 30px !important; padding-left: 30px !important;">
+                                                        <form class="login-form" action="{{ url_for('edit_company', companyID=record.companyID) }}" method="post" style="padding-right: 30px !important; padding-left: 30px !important;">
                                                           <div class="row">
                                                             <div class="col-md-3">
                                                               <div class="form-group">
@@ -457,7 +459,7 @@
                                                               <div class="form-group">
                                                                 <label class="bmd-label-floating">Company Phone Number</label>
                                                                   <label>
-                                                                      <input type="number" name="company_phone_number" class="form-control" value="{{ record.company_phone_number }}">
+                                                                      <input type="number" name="companyPhoneNumber" class="form-control" value="{{ record.companyPhoneNumber }}">
                                                                   </label>
                                                               </div>
                                                             </div>
@@ -477,6 +479,14 @@
                                                                   </label>
                                                               </div>
                                                             </div>
+                                                            <div class="col-md-6">
+                                                              <div class="form-group">
+                                                                <label class="bmd-label-floating">Winner</label>
+                                                                  <label>
+                                                                      <input type="text" name="isWinner" class="form-control" value="{{ record.isWinner }}">
+                                                                  </label>
+                                                              </div>
+                                                            </div>
                                                           <button type="submit" class="btn btn-login float-right" data-background-color="main">Edit Company</button>
                                                         </form>
                                                       </div>
@@ -489,7 +499,7 @@
                                             </td>
                                             <td>
                                                 <button type="button" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs">
-                                                  <a href="{{ url_for('delete_company', company_id=record.company_id) }}">
+                                                  <a href="{{ url_for('delete_company', companyID=record.companyID) }}">
                                                     <i class="material-icons" style="color: red;">delete_forever</i>
                                                   </a>
                                                 </button>
@@ -552,7 +562,7 @@
                                       <div class="form-group">
                                         <label class="bmd-label-floating">Company Phone Number</label>
                                           <label>
-                                              <input type="number" name="company_phone_number" class="form-control" value="{{ request.form.company_phone_number }}">
+                                              <input type="number" name="companyPhoneNumber" class="form-control" value="{{ request.form.companyPhoneNumber }}">
                                           </label>
                                       </div>
                                     </div>
@@ -569,6 +579,14 @@
                                         <label class="bmd-label-floating">Awarded Point</label>
                                           <label>
                                               <input type="number" name="awardedPoint" class="form-control" value="{{ request.form.awardedPoint }}">
+                                          </label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label class="bmd-label-floating">Winner</label>
+                                          <label>
+                                              <input type="number" name="isWinner" class="form-control" value="{{ request.form.isWinner }}">
                                           </label>
                                       </div>
                                     </div>
