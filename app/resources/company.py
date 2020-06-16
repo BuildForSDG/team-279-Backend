@@ -64,8 +64,7 @@ class CompanyListAPI(Resource):
         if company:
             return output
         else:
-            return {"error": "There are no registered company. "
-                             "Add a new one and try again!"}, 404
+            return {"error": "There are no registered company. Add a new one and try again!"}, 404
 
 
     def post(self):

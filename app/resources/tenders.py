@@ -14,6 +14,7 @@ tenders_schema = TenderSchema(many=True)
 company_schema = CompanySchema()
 companies_schema = CompanySchema(many=True)
 
+
 # https://dzone.com/articles/how-to-initialize-database-with-default-values-in
 
 
@@ -155,7 +156,7 @@ class TenderAPI(Resource):
             return {"error": "A tender with ID " + tenderID + " does " "not exist."}, 404
 
         return create_or_update_resource(resource=tender, resource_type="tender", serializer=tender_serializer,
-            create=False)
+                                         create=False)
 
     def delete(self, tenderID):
 
@@ -187,18 +188,18 @@ class CombinedListAPI(Resource):
                 for row in Tender.query.filter_by(tenderNumber=str(tender_dict['tenderNumber'])):
                     if company_names_dict['tenderNumber'] == row.tenderNumber:
                         row.companyNames = {"applyCount": company_names_dict['applyCount'],
-                                             "awardedPoint": company_names_dict['awardedPoint'],
-                                             "companyAddress": company_names_dict['tenderID'],
-                                             "companyName": company_names_dict['companyName'],
-                                             "companyRegistrationNo": company_names_dict['tenderID'],
-                                             "companyID": company_names_dict['companyID'],
-                                             "companyPhoneNumber": company_names_dict['companyPhoneNumber'],
-                                             "directors": company_names_dict['directors'],
-                                             "isWinner": company_names_dict['isWinner'],
-                                             "tenderNumber": row.tenderNumber,
-                                             "tenderID": row.tenderID,
-                                             "winningCount": company_names_dict['winningCount']
-                                             }
+                                            "awardedPoint": company_names_dict['awardedPoint'],
+                                            "companyAddress": company_names_dict['tenderID'],
+                                            "companyName": company_names_dict['companyName'],
+                                            "companyRegistrationNo": company_names_dict['tenderID'],
+                                            "companyID": company_names_dict['companyID'],
+                                            "companyPhoneNumber": company_names_dict['companyPhoneNumber'],
+                                            "directors": company_names_dict['directors'],
+                                            "isWinner": company_names_dict['isWinner'],
+                                            "tenderNumber": row.tenderNumber,
+                                            "tenderID": row.tenderID,
+                                            "winningCount": company_names_dict['winningCount']
+                                            }
                         db.session.commit()
         tender_client = db.session.query(Tender).all()
         tender_records = tenders_schema.dump(tender_client)
