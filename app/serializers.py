@@ -3,22 +3,22 @@ from flask_restful import fields
 """Defining how resources are represented
 """
 
-company_serializer = {"company_id": fields.Integer,
-                      "tender_id": fields.Integer,
+company_serializer = {"companyID": fields.Integer,
+                      "tenderID": fields.Integer,
                       "companyName": fields.String,
                       "companyRegistrationNo": fields.String,
                       "directors": fields.String,
-                      "company_phone_number": fields.Integer,
+                      "companyPhoneNumber": fields.Integer,
                       "companyAddress": fields.String,
-                      "apply_count": fields.Integer,
-                      "winning_count": fields.Integer,
+                      "applyCount": fields.Integer,
+                      "winningCount": fields.Integer,
                       "awardedPoint": fields.Integer,
                       "tenderNumber": fields.String,
-                      "is_winner": fields.Boolean(),
+                      "isWinner": fields.String,
                       }
 
 
-tender_serializer = {"tender_id": fields.Integer,
+tender_serializer = {"tenderID": fields.Integer,
                      "tenderNumber": fields.String,
                      "tenderDescription": fields.String,
                      "category": fields.String,
@@ -30,5 +30,5 @@ tender_serializer = {"tender_id": fields.Integer,
                      "InstitutionContactPerson": fields.String,
                      "InstitutionPersonEmail": fields.String,
                      "InstitutionPersonPhone": fields.String,
-                     "company_names": fields.String,
+                     "companyNames": fields.String,
                      }

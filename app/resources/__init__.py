@@ -81,7 +81,7 @@ def before_request():
     user registration, login and index.
     """
 
-    if request.endpoint in ["tenderlistapi", "tenderapi", "companylistapi", "companyapi", "CombinedListAPI"]:
+    if request.endpoint in ["tenderlistapi", "tenderapi", "companylistapi", "companyapi", "combinedlistapi"]:
         token = request.headers.get("Authorization")
         if token is not None:
             token_decode_response = User.decode_auth_token(token)

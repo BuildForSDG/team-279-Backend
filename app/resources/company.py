@@ -3,6 +3,9 @@ from flask_restful import Resource, reqparse, marshal
 from app.resources import create_or_update_resource, delete_resource
 from app.models import Company, TenderSchema, CompanySchema
 from app.serializers import company_serializer
+from sqlalchemy import event
+from app import db
+
 
 # init schema
 tender_schema = TenderSchema()
@@ -10,6 +13,16 @@ tenders_schema = TenderSchema(many=True)
 
 company_schema = CompanySchema()
 companies_schema = CompanySchema(many=True)
+
+
+# https://dzone.com/articles/how-to-initialize-database-with-default-values-in
+@event.listens_for(Company.__table__, 'after_create')
+def insert_initial_values(*args, **kwargs):
+    db.session.add(Company(isWinner='notWinner'))
+    db.session.commit()
+
+
+event.listen(Company.__table__, 'after_create', insert_initial_values)
 
 
 class CompanyListAPI(Resource):
@@ -25,7 +38,8 @@ class CompanyListAPI(Resource):
         limit = int(args.get("limit", 20))
         kwargs = {}
 
-        company = Company.query.filter_by(**kwargs).paginate(page=page, per_page=limit, error_out=False)
+        company = Company.query.filter_by(**kwargs).\
+            paginate(page=page, per_page=limit, error_out=False)
         page_count = company.pages
         has_next = company.has_next
         has_previous = company.has_prev
@@ -54,62 +68,68 @@ class CompanyListAPI(Resource):
             return {"error": "There are no registered company. "
                              "Add a new one and try again!"}, 404
 
-
     def post(self):
-
         parser = reqparse.RequestParser()
-        parser.add_argument("tenderNumber", help="Please enter a tender number for a company.")
-        parser.add_argument("companyName", required=True, help="Please enter a company name.")
-        parser.add_argument("directors", required=True, help="Please enter a directors.")
-        parser.add_argument("companyRegistrationNo", required=True, help="Please enter a company registration number.")
-        parser.add_argument("company_phone_number", help="Enter the company phone number.")
-        parser.add_argument("companyAddress", help="Enter the company address.")
-        parser.add_argument("awardedPoint", required=True, help="Please enter awarded point.")
-
+        parser.add_argument("tenderNumber",
+                            help="Please enter a tender number for a company.")
+        parser.add_argument("companyName",
+                            required=True, help="Please enter a company name.")
+        parser.add_argument("directors",
+                            required=True, help="Please enter a directors.")
+        parser.add_argument("companyRegistrationNo",
+                            required=True, help="Please enter a "
+                                                "company registration number.")
+        parser.add_argument("companyPhoneNumber",
+                            help="Enter the company phone number.")
+        parser.add_argument("companyAddress",
+                            help="Enter the company address.")
+        parser.add_argument("awardedPoint",
+                            required=True, help="Please enter awarded point.")
+        parser.add_argument("isWinner",
+                            required=True, help="Please enter awarded point.")
         args = parser.parse_args()
-
-        tenderNumber, companyName, directors, companyRegistrationNo, company_phone_number, companyAddress, awardedPoint = \
-            args["tenderNumber"], args["companyName"], args["directors"], args["companyRegistrationNo"], \
-            args["company_phone_number"], args["companyAddress"], args["awardedPoint"]
+        tenderNumber = args["tenderNumber"]
+        companyName = args["companyName"]
+        directors = args["directors"]
+        companyRegistrationNo = args["companyRegistrationNo"]
+        companyPhoneNumber = args["companyPhoneNumber"]
+        companyAddress = args["companyAddress"]
+        awardedPoint = args["awardedPoint"]
+        isWinner = args["isWinner"]
 
         company = Company(tenderNumber=tenderNumber,
                           companyName=companyName,
                           directors=directors,
                           companyRegistrationNo=companyRegistrationNo,
-                          company_phone_number=company_phone_number,
+                          companyPhoneNumber=companyPhoneNumber,
                           companyAddress=companyAddress,
-                          awardedPoint=awardedPoint
+                          awardedPoint=awardedPoint,
+                          isWinner=isWinner
                           )
-        # if company.apply_count == 'null' and companyRegistrationNo is not None:
-        #     try:
-        #         companyRegistrationNo = Company.query.get(companyRegistrationNo)
-        #         if companyRegistrationNo:
-        #             count += 1
-        #             company.apply_count.append(count)
-        #         else:
-        #             return {"error": "cannot assign value to apply_count"}, 400
-        #     except:
-        #         return {"error": "The company already apply for this tender number"}, 400
-        return create_or_update_resource(resource=company, resource_type="company", serializer=company_serializer, create=True)
+
+        return create_or_update_resource(resource=company,
+                                         resource_type="company",
+                                         serializer=company_serializer,
+                                         create=True)
 
 
 class CompanyAPI(Resource):
     """View, update and delete a single company.
-    URL: /api/v1/company/<company_id>
+    URL: /api/v1/company/<companyID>
     Request methods: GET, PUT, DELETE
     """
 
-    def get(self, company_id):
+    def get(self, companyID):
 
-        company = Company.query.filter_by(company_id=company_id).first()
+        company = Company.query.filter_by(companyID=companyID).first()
         if company:
             return marshal(company, company_serializer)
         else:
-            return {"error": "A company with ID " + company_id + " does " "not exist."}, 404
+            return {"error": "A company with ID " + companyID + " does " "not exist."}, 404
 
 
-    def put(self, company_id):
-        company = Company.query.filter_by(company_id=company_id).first()
+    def put(self, companyID):
+        company = Company.query.filter_by(companyID=companyID).first()
         if company:
             parser = reqparse.RequestParser()
             parser.add_argument("companyName")
@@ -117,9 +137,10 @@ class CompanyAPI(Resource):
             parser.add_argument("companyRegistrationNo")
             parser.add_argument("company_phone_number")
             parser.add_argument("companyAddress")
-            parser.add_argument("apply_count")
-            parser.add_argument("winning_count")
+            parser.add_argument("applyCount")
+            parser.add_argument("winningCount")
             parser.add_argument("awardedPoint")
+            parser.add_argument("isWinner")
             args = parser.parse_args()
             for field in args:
                 if args[field] is not None:
@@ -127,12 +148,12 @@ class CompanyAPI(Resource):
                     setattr(company, field, updated_field)
             return create_or_update_resource(resource=company, resource_type="company", serializer=company_serializer, create=False)
         else:
-            return {"error": "A company with ID " + company_id + " does not exist."}, 404
+            return {"error": "A company with ID " + companyID + " does not exist."}, 404
 
 
-    def delete(self, company_id):
-        company = Company.query.filter_by(company_id=company_id).first()
+    def delete(self, companyID):
+        company = Company.query.filter_by(companyID=companyID).first()
         if company:
-            return delete_resource(resource=company, resource_type="company", id=company_id)
+            return delete_resource(resource=company, resource_type="company", id=companyID)
         else:
-            return {"error": "A company with ID " + company_id + " does " "not exist."}, 404
+            return {"error": "A company with ID " + companyID + " does " "not exist."}, 404
