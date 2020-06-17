@@ -20,16 +20,12 @@ The vTender app addresses the following SDG goals:
 -   Allows SMME's to understand how a particular tender is been awarded, as well as to detect discrepancies in an awarded tenders. 
 -   Helps to prevent any act of frauds and corruptions based on an implemented algorithm. 
 
-
-
 ## Backend App and API
 
 -   It has the following relational entities:
-
     ``
     Tender
     ``
-
 -   It has endpoints to CREATE, UPDATE, and DELETE each entity in the application
 
 -   Only an authorized user can access the endpoints
@@ -44,136 +40,75 @@ How would someone use what you have built, include URLs to the deployed app, ser
 
 ## Installation and Set Up
 
-You should have **Python 3.5+** and **git** installed.
+1.  You should have **Python 3.5+** and **git** installed.
+2.  To get started, clone this repository by using: `git clone https://github.com/BuildForSDG/team-279-Backend.git`
+3.  Change to the root directory by navigating to the folder: `cd team-279-Backend`
+4.  Install the required packages using Pipenv virtual environment: `Pipenv install`
+5.  Create a `.env` file with the following keys:
+    
+    ```py
+    SECRET_KEY
 
-1.  Clone the repo you've created from the template herein and change into the directory
+    DATABASE_URI - for SQLAlchemy
 
-    ``
-    git clone https://github.com/BuildForSDG/team-279-Backend
-    ``
+    TEST_DATABASE_URI - for SQLAlchemy
 
-2.  Change into repo directory by navigating into the root folder:
+    ENVIRONMENT - this is either production or development
+    ```
+6.  Initialize, migrate, and upgrade the database:
+    
+    ```py
+    python manage.py db init
 
-    ``
-    cd team-279-Backend
-    ``
+    python manage.py db migrate
 
-3.  Install poetry, a dependecy manager for python.
+    python manage.py db upgrade
+    ```
+5.  Start by launching the flask server by running `python run.py`
+6.  Navigate to `http://localhost:5000` in the browser to view the api.
+7.  Alternatively, you may install [Postman](https://www.postman.com/) locally or You may use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Google Chrome to run the API.
+8.  The following REST API URL endpoints can be use to test the program for quickly and easily access.
 
-    On windows, you will need powershell to install it:
+### API Endpoints
 
-    ``
-    (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
-    ``
+| Resource URL                                | Methods                 | Description                            | Requires Authorization |
+| ------------------------------------------- | ----------------------- | -------------------------------------- | ---------------------- |
+| `/api/v1`                                   | GET                     | The index                              | FALSE                  |
+| `/api/v1/auth/register`                     | POST                    | User registration                      | FALSE                  |
+|  `/api/v1/auth/login`                       | POST                    | User login                             | FALSE                  |
+| `/api/v1/tenders`                           | GET, POST               | View all tenders, add a tender         | TRUE                   |
+| `/api/v1/tenders/<string:tenderID>`         | GET, PUT, DELETE        | View, edit, and delete a single tender | TRUE                   |
+| `/api/v1/company`                           | GET, POST               | View all tenders, add a company        | TRUE                   |
+| `/api/v1/company/<string:companyID>`        | GET, PUT, DELETE        | View, edit, and delete a single company| TRUE                   |
+| `/api/v1/combined-tenders`                  | GET                     | View                                   | TRUE                   |
+| `/api/v1/one-tender/<string:tenderNumber>`  | GET                     | View                                   | TRUE                   |
 
-    After that you will need to restart the shell to make it operational.
 
-    &nbsp;
+## Postman Setup for testing the Program REST API 
 
-    On linux and other posix systems (mac included):
+Open this collection in postman by clicking the button below:
 
-    ``
-    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-    ``
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://documenter.getpostman.com/view/10400114/SzzkcHBh?version=latest)
 
-    &nbsp;
+If you're using Postman for testing the REST api, you can use the following setup:
 
-    To check that it is correctly installed, you can check the version:
+-   Make sure you have an environment set for your collection.
 
-    ``
-    poetry --version
-    ``
+-   POST to `https://team-279-backend.herokuapp.com/api/v1/auth/register` and add your details to sign up
 
-    May be the latest stable version is not installed with the installation script, to update poetry, you can run:
+-   POST to `https://team-279-backend.herokuapp.com/api/v1/auth/login` to obtain token authorization
 
-    ``
-    poetry self update
-    ``
+-   Paste this code in Tests which will save the token to the environment.
 
-4.  With poetry installed, you should install project dependecies by running:
+        var jsonData = JSON.parse(responseBody);
+        postman.setEnvironmentVariable("token", jsonData.token);
 
-    ``
-    poetry install
-    ``
+-   In the Authorization section of your subsequent posts, set the Authorization type as Bearer Token and add {{token}}
+    in the token section
 
-    This will install pytest for running tests and flake8, linter for your project.
+## Heroku deployment
 
-#### To Note
-
-`src/app.py` is the entry to the project and source code should go into the `src` folder.
-
-## Testing
-
-All tests should be written in the `tests` folder. tests/test_src.py is a sample test file that shows how tests should like. Feel free to delete it.
-
-#### Hints
-
--   Lint:
-
-    `poetry run flake8`
-
--   Run tests using the command:
-
-    `poetry run pytest`
-
--   Install dependencies:
-
-    `poetry add <dependency>`
-
--   Install dev dependencies:
-
-    `poetry add --dev <dev-dependency>`
-
--   Run your project:
-
-    `poetry run app`
-
-## Database Setup
-
-We create the MySQL database. Ensure you have MySQL installed and running, and then log in as the root user:
-
-## Create dotenv
-
-Create a ```.env``` file with the following keys:
-
-   ```py
-   SECRET_KEY
-
-   DATABASE_URI - for SQLAlchemy
-
-   TEST_DATABASE_URI - for SQLAlchemy
-
-   ENVIRONMENT - this is either production or development
-   ```
-
-## Database Migration
-Initialize, migrate, and upgrade the database:
-
-   ```py
-   python manage.py db init
-
-   python manage.py db migrate
-
-   python manage.py db upgrade
-   ```
-
-## Launching the Program
-
-Run ```FLASK_ENV=development flask run```. You may use [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) for Google Chrome to run the API.
-
-## API Endpoints
-
-| Resource URL                            | Methods                 | Description                            | Requires Token |
-| --------------------------------------- | ----------------------- | -------------------------------------- |--------------- |
-| `/api/v1`                               | GET                     | The index                              | FALSE          |
-| `/api/v1/auth/register`                 | POST                    | User registration                      | FALSE          |
-|  `/api/v1/auth/login`                   | POST                    | User login                             | FALSE          |
-| `/api/v1/tenders`                       | GET, POST               | View all tenders, add a tender         | TRUE           |
-| `/api/v1/tenders/<string:tender_id>`    | GET, PUT, DELETE        | View, edit, and delete a single tender | TRUE           |
-| `/api/v1/company`                       | GET, POST               | View all tenders, add a company        | TRUE           |
-| `/api/v1/company/<string:company_id>`   | GET, PUT, DELETE        | View, edit, and delete a single company| TRUE           |
-| `/api/v1/tenders/all_tenders_object`    | GET                     | View                                   | TRUE           |
-| `/api/v1/display_tender/<tenderNumber>` | GET                     | View                                   | TRUE           |
+View the deployed application here [vTender API](https://team-279-backend.herokuapp.com/)   
 
 ## Tender API Requests
 
@@ -183,27 +118,19 @@ Registering and logging in to get a JWT token:
 
 -   ![User Login]()
 
-Updating a tender:
+Update a tender:
 
 -   ![Updating Tender]()
 
-Updating a company:
+Update a company:
 
 -   ![Updating Company]()
 
-## Built With
-
--   [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
-
--   [Flask](http://flask.pocoo.org/)
-
--   [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
+To test the API
 
 ## Authors
 
-List the team behind this project. Their names linked to their Github, LinkedIn, or Twitter accounts should suffice. Ok to signify the role they play in the project, including the TTL and mentor.
-
-1.  Ajay Olabode [Github](https://github.com/boratonAJ) [LinkedIn](https://www.linkedin.com/in/boraton/) [TTL](https://github.com/orgs/BuildForSDG/teams/team-279)
+-   [Ajay Olabode](https://github.com/boratonAJ) [LinkedIn](https://www.linkedin.com/in/boraton/) [TTL](https://github.com/orgs/BuildForSDG/teams/team-279)
 
 ## Contributing
 
@@ -215,11 +142,13 @@ First, you can send a mail to buildforsdg@andela.com to indicate your interest, 
 
 ## Acknowledgements
 
-Did you use someone else’s code?
-Do you want to thank someone explicitly?
-Did someone’s blog post spark off a wonderful idea or give you a solution to nagging problem?
+-   [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.1/)
 
-It's powerful to always give credit.
+-   [Flask](http://flask.pocoo.org/)
+
+-   [Flask-RESTful](http://flask-restful-cn.readthedocs.io/en/0.3.4/)
+
+-   [Token-Based Authentication With Flask](https://realpython.com/token-based-authentication-with-flask/)
 
 ## LICENSE
 

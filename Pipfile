@@ -41,6 +41,7 @@ flake8 = "*"
 pytest-cov = "*"
 python-coveralls = "*"
 gunicorn = "*"
+update = "*"
 
 [requires]
 python_version = "3.7"
