@@ -31,4 +31,4 @@ api = Api(app=app, prefix="/api/v1")
 # init ma
 ma = Marshmallow(app)
 
-# from app import views
+from app import views
